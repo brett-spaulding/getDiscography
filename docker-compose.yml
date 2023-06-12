@@ -1,0 +1,14 @@
+version: '2'
+services:
+    web:
+        build: .
+        command: python3 app.py
+        ports:
+            - "80:5000"
+        volumes:
+            - .:/code:Z
+            - ./user:/home/app:Z
+        depends_on:
+            - redis
+    redis:
+        image: redis
