@@ -21,7 +21,7 @@ def download_file(url, output):
 def process_download(artist):
     artist = artist.title()
     # Initialize a new browser object to go collect the data we need
-    browser = new_browser(headless=False)
+    browser = new_browser(headless=True)
     url = QUERY_URL + artist
     browser.maximize_window()
     browser.implicitly_wait(1)
@@ -77,7 +77,7 @@ def process_download(artist):
 
         album_title = album.find('div', {'id': 'card-title'})
         if album_title and hasattr(album_title, 'text'):
-            album_data.update({'album': album_title.text.replace('\n', '')})
+            album_data.update({'album': album_title.text.replace('\n', '').replace('/', '-')})
 
         albums_data_list.append(album_data)
 

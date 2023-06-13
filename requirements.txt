@@ -2,6 +2,7 @@ bs4
 flask
 redis
 requests
+rq
 selenium==3.14.1
 selenium-requests
 urllib3==1.26.2
