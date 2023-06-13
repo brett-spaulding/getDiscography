@@ -22,8 +22,11 @@ def get_artist(path):
     :param path: The Artist to get files for
     :return: a status
     """
-    proc = process_download(path)
-    return {'status': 200, 'data': proc, 'artist': path}
+    if path:
+        proc = process_download(path)
+        return {'status': 200, 'data': proc, 'artist': path}
+    else:
+        return {'status': 501}
 
 
 if __name__ == "__main__":
