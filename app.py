@@ -12,7 +12,7 @@ def index():
     # redis.incr('hits')
     # counter = 'This Compose/Flask demo has been viewed %s time(s).' % redis.get('hits')
     
-    return '<h1>Hello World</h1><p>Index Page</p>'
+    return render_template('base.html')
 
 
 @app.route('/api/v1/get/<path:path>')
@@ -23,8 +23,7 @@ def get_artist(path):
     :return: a status
     """
     proc = process_download(path)
-    params = {'artist': path}
-    return render_template('base.html', **params)
+    return {'status': 200, 'data': proc, 'artist': path}
 
 
 if __name__ == "__main__":

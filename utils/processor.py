@@ -1,3 +1,5 @@
+import os
+
 import bs4
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,6 +14,7 @@ import yt_dlp
 
 def download_file(url, output):
     filename = wget.download(url, out=output)
+    os.rename(filename, output + '/album.jpg')
     return filename
 
 
@@ -109,7 +112,6 @@ def process_download(artist):
 
         # Download album
         print(item)
-
         ydl_opts = {
             'logger': MyLogger(),
             'progress_hooks': [my_hook],
@@ -123,8 +125,11 @@ def process_download(artist):
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            error_code = ydl.download('https://youtube.com' + item.get('link'))
+            try:
+                error_code = ydl.download('https://youtube.com' + item.get('link'))
+            except Exception as e:
+                print('!!!!!!!!!')
+                print(e)
 
-    return res_value
+    return processed_albums_data_list
 
-#
