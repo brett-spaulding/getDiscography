@@ -18,6 +18,15 @@ body {
     transform: translate(-50%, -50%) !important;
 }
 
+#disk {
+    width: 66vw;
+    border-radius: 1200px;
+    aspect-ratio: 1 / 1 !important;
+    background-image: url('/static/img/vinyl.png');
+    background-position: center;
+    background-size: cover;
+}
+
 .card {
     box-shadow: 0 0 36px 0px rgba(128,128,128,0.128);
     background-color: white;

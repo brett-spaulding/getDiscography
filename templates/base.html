@@ -29,77 +29,77 @@
             <div class="page-content">
                 <div class="container">
                     <div class="row">
-                        <div class="card centered w-75">
-                            <!-- LOGO -->
-                            <div class="logo-home mx-auto">
-                                <a id="logo" class="text-black btn-modal" href="#" data-action="main_menu">
-                                    <h1 class="logo-text" style="margin-left: 6px;">
-                                        <i class="la la-compact-disc"></i>Discography
-                                    </h1>
+                        <div id="disk" class="card centered">
+
+                            <div class="disk-content centered">
+                                <!-- LOGO -->
+                                <div class="logo-home mx-auto">
+                                    <a id="logo" class="text-black btn-modal" href="#" data-action="main_menu">
+                                        <h1 class="logo-text" style="margin-left: 6px;">
+                                            <i class="la la-compact-disc"></i>Discography
+                                        </h1>
+                                    </a>
+                                </div>
+
+                                <div class="text-center mb-2">
+                                    <p>Enter an Artist</p>
+                                </div>
+
+                                <!-- Search bar -->
+                                <div id="search-container">
+                                    <div class="input-group mb-3">
+                                        <input id="search_bar" type="text" class="form-control" placeholder=""
+                                               aria-label="Search" aria-describedby="Search"/>
+                                    </div>
+                                </div>
+
+                                <a id="download_btn" class="btn btn-outline-secondary action-item-home btn-modal"
+                                   href="#download"
+                                   data-action="download">
+                                    <i class="las la-download"></i>
+                                    Download
                                 </a>
                             </div>
 
-                            <div class="text-center mb-2">
-                                <p>Enter an Artist</p>
-                            </div>
-
-                            <!-- Search bar -->
-                            <div id="search-container">
-                                <div class="input-group mb-3">
-                                    <input id="search_bar" type="text" class="form-control" placeholder=""
-                                           aria-label="Search" aria-describedby="Search"/>
-                                </div>
-                            </div>
-
-                            <t t-if="user">
-                                <!-- Quick Action Menu -->
-                                <div id="actions-container-home" class="mt-4">
-                        <span>
-                            <a id="download_btn" class="btn btn-outline-secondary action-item-home btn-modal" href="#download"
-                               data-action="download">
-                                <i class="las la-download"></i>
-                                Download
-                            </a>
-                        </span>
-                                </div>
                         </div>
                     </div>
-
-                    <!--[if IE]>
-                    <div class="position-fixed bottom-0 w-100 p-2 text-bg-dark d-flex justify-content-between"><p>
-                        Outdated
-                        browser
-                        dectected. Please use a modern browser for a better browsing experience.</p>
-                        <button type="button" class="btn-close btn-close-white" onClick="parentNode.remove()"
-                                aria-label="Close"></button>
-                    </div><![endif]-->
-                    <!-- ░░░░░▄▄▄▄▀▀▀▀▀▀▀▀▄▄▄▄▄▄░░░░░░░░ -->
-                    <!-- ░░░░░█░░░░▒▒▒▒▒▒▒▒▒▒▒▒░░▀▀▄░░░░ -->
-                    <!-- ░░░░█░░░▒▒▒▒▒▒░░░░░░░░▒▒▒░░█░░░ -->
-                    <!-- ░░░█░░░░░░▄██▀▄▄░░░░░▄▄▄░░░░█░░ -->
-                    <!-- ░▄▀▒▄▄▄▒░█▀▀▀▀▄▄█░░░██▄▄█░░░░█░ -->
-                    <!-- █░▒█▒▄░▀▄▄▄▀░░░░░░░░█░░░▒▒▒▒▒░█ -->
-                    <!-- █░▒█░█▀▄▄░░░░░█▀░░░░▀▄░░▄▀▀▀▄▒█ -->
-                    <!-- ░█░▀▄░█▄░█▀▄▄░▀░▀▀░▄▄▀░░░░█░░█░ -->
-                    <!-- ░░█░░░▀▄▀█▄▄░█▀▀▀▄▄▄▄▀▀█▀██░█░░ -->
-                    <!-- ░░░█░░░░██░░▀█▄▄▄█▄▄█▄████░█░░░ -->
-                    <!-- ░░░░█░░░░▀▀▄░█░░░█░█▀██████░█░░ -->
-                    <!-- ░░░░░▀▄░░░░░▀▀▄▄▄█▄█▄█▄█▄▀░░█░░ -->
-                    <!-- ░░░░░░░▀▄▄░▒▒▒▒░░░░░░░░░░▒░░░█░ -->
-                    <!-- ░░░░░░░░░░▀▀▄▄░▒▒▒▒▒▒▒▒▒▒░░░░█░ -->
-                    <!-- ░░░░░░░░░░░░░░▀▄▄▄▄▄░░░░░░░▄█░░ -->
-                    <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-                            crossorigin="anonymous"></script>
-                    <script type="text/javascript">
-                        $(window).on('load', function () {
-                            $("#loader-wrapper").fadeOut(900);
-                        });
-                    </script>
-                    <script src="/static/js/app.js"></script>
                 </div>
+
+                <!--[if IE]>
+                <div class="position-fixed bottom-0 w-100 p-2 text-bg-dark d-flex justify-content-between"><p>
+                    Outdated
+                    browser
+                    dectected. Please use a modern browser for a better browsing experience.</p>
+                    <button type="button" class="btn-close btn-close-white" onClick="parentNode.remove()"
+                            aria-label="Close"></button>
+                </div><![endif]-->
+                <!-- ░░░░░▄▄▄▄▀▀▀▀▀▀▀▀▄▄▄▄▄▄░░░░░░░░ -->
+                <!-- ░░░░░█░░░░▒▒▒▒▒▒▒▒▒▒▒▒░░▀▀▄░░░░ -->
+                <!-- ░░░░█░░░▒▒▒▒▒▒░░░░░░░░▒▒▒░░█░░░ -->
+                <!-- ░░░█░░░░░░▄██▀▄▄░░░░░▄▄▄░░░░█░░ -->
+                <!-- ░▄▀▒▄▄▄▒░█▀▀▀▀▄▄█░░░██▄▄█░░░░█░ -->
+                <!-- █░▒█▒▄░▀▄▄▄▀░░░░░░░░█░░░▒▒▒▒▒░█ -->
+                <!-- █░▒█░█▀▄▄░░░░░█▀░░░░▀▄░░▄▀▀▀▄▒█ -->
+                <!-- ░█░▀▄░█▄░█▀▄▄░▀░▀▀░▄▄▀░░░░█░░█░ -->
+                <!-- ░░█░░░▀▄▀█▄▄░█▀▀▀▄▄▄▄▀▀█▀██░█░░ -->
+                <!-- ░░░█░░░░██░░▀█▄▄▄█▄▄█▄████░█░░░ -->
+                <!-- ░░░░█░░░░▀▀▄░█░░░█░█▀██████░█░░ -->
+                <!-- ░░░░░▀▄░░░░░▀▀▄▄▄█▄█▄█▄█▄▀░░█░░ -->
+                <!-- ░░░░░░░▀▄▄░▒▒▒▒░░░░░░░░░░▒░░░█░ -->
+                <!-- ░░░░░░░░░░▀▀▄▄░▒▒▒▒▒▒▒▒▒▒░░░░█░ -->
+                <!-- ░░░░░░░░░░░░░░▀▄▄▄▄▄░░░░░░░▄█░░ -->
+                <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+                        crossorigin="anonymous"></script>
+                <script type="text/javascript">
+                    $(window).on('load', function () {
+                        $("#loader-wrapper").fadeOut(900);
+                    });
+                </script>
+                <script src="/static/js/app.js"></script>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
