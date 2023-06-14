@@ -1,3 +1,4 @@
+import json
 import operator as oprtr
 from pysondb import PysonDB
 
@@ -37,8 +38,6 @@ class Model:
         filtered_record_ids =[]
         for record in records:
             record_id = self.env.get_by_id(record)
-            print('===')
-            print(record_id)
             checklist = []
             for param in params:
                 field = param[0]
@@ -48,6 +47,7 @@ class Model:
 
             passed = all(x for x in checklist)
             if passed:
+                record_id.update({'id': record})
                 filtered_record_ids.append(record_id)
 
         return filtered_record_ids
@@ -77,7 +77,8 @@ class Model:
         return record_ids
 
     def write(self, record_id, vals):
-        self.env.update_by_id(record_id, vals)
+        record = self.env.update_by_id(record_id, vals)
+        return record
 
     def unlink(self, record_id):
         self.env.delete_by_id(record_id)
