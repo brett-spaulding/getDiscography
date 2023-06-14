@@ -18,6 +18,10 @@ function fill_download_queue() {
     })
 }
 
+$('.settings_btn').on('click', () => {
+    $('#modalSettings').modal('toggle');
+})
+
 $('.queue_btn').on('click', () => {
     console.log('Get Queue!');
     if (modalPolling) {

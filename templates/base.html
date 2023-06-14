@@ -19,8 +19,9 @@
 </head>
 <body>
 <div id="loader-wrapper" class="bg-white position-fixed z-3 w-100 h-100 text-center">
-    <div class="centered" role="status" style="position: fixed; top: 50%;">
+    <div class="centered text-center" role="status" style="position: fixed; top: 50%;">
         <i class="la la-4x la-compact-disc icn-spinner"></i>
+        <h3>Loading..</h3>
     </div>
 </div>
 
@@ -32,11 +33,11 @@
                 <div id="action_list">
                     <span>
                         <a href="#download-queue">
-                            <i class="las la-3x la-server queue_btn"></i>
+                            <i class="las la-2x la-list queue_btn"></i>
                         </a>
-{#                        <a href="#download-queue">#}
-{#                            <i class="las la-3x la-server queue_btn"></i>#}
-{#                        </a>#}
+                        <a href="#settings">
+                            <i class="las la-2x la-cog settings_btn"></i>
+                        </a>
                     </span>
                 </div>
 
@@ -78,7 +79,7 @@
                     </div>
                 </div>
 
-                <!-- Modal -->
+                <!-- Download Queue Modal -->
                 <div class="modal fade"
                      id="modalDownloadQueue" tabindex="-1" aria-labelledby="modalDownloadQueue" aria-hidden="true">
                     <div class="modal-dialog  modal-dialog-centered modal-lg modal-dialog-scrollable modal-fullscreen-md-down modal-fullscreen-sm-down">
@@ -92,6 +93,27 @@
                                 <div id="modal_content"></div>
                             </div>
                             <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Modal -->
+                <div class="modal fade"
+                     id="modalSettings" tabindex="-1" aria-labelledby="modalSettings" aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-centered modal-lg modal-dialog-scrollable modal-fullscreen-md-down modal-fullscreen-sm-down">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Settings</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>No settings yet, check back later my nigga.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
