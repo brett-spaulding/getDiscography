@@ -1,4 +1,4 @@
-class MyLogger:
+class YtDlpLogger:
     def debug(self, msg):
         # For compatibility with youtube-dl, both debug and info are passed into debug
         # You can distinguish them by the prefix '[debug] '
@@ -18,6 +18,6 @@ class MyLogger:
 
 
 # ℹ️ See "progress_hooks" in help(yt_dlp.YoutubeDL)
-def my_hook(d):
+def yt_dlp_log_hook(d):
     if d['status'] == 'finished':
         print('Done downloading, now post-processing ...')

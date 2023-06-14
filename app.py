@@ -1,3 +1,4 @@
+from database import Model
 from flask import Flask, render_template
 from redis import Redis
 from utils.processor import process_download
@@ -5,6 +6,7 @@ from utils.processor import process_download
 
 app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
+Album = Model('album')
 
 
 @app.route('/')
@@ -15,7 +17,7 @@ def index():
     return render_template('base.html')
 
 
-@app.route('/api/v1/get/<path:path>')
+@app.route('/api/v1/get/artist/<path:path>')
 def get_artist(path):
     """
     Process for the requested Artist
@@ -23,10 +25,20 @@ def get_artist(path):
     :return: a status
     """
     if path:
-        proc = process_download(path)
-        return {'status': 200, 'data': proc, 'artist': path}
+        res = process_download(path)
     else:
-        return {'status': 501}
+        res = {'status': 501, 'message': 'Could not process download..'}
+
+    return res
+
+
+@app.route('/api/v1/get/queue')
+def get_queue():
+    album_ids = Album.search([('downloaded', '=', False)])
+    data = {'album_ids': album_ids}
+    print('======================')
+    print(data)
+    return render_template('download_queue.html', **data)
 
 
 if __name__ == "__main__":

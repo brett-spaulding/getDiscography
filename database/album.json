@@ -1,0 +1,93 @@
+{
+    "version": 2,
+    "keys": [
+        "album",
+        "artist",
+        "cover",
+        "downloaded",
+        "downloading",
+        "link"
+    ],
+    "data": {
+        "199074445401889600": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_nr-vlAyokNEb25RLBNe1XHsFo9gkvu2Pg&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_nr-vlAyokNEb25RLBNe1XHsFo9gkvu2Pg/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCN-N_qMG&rs=AOn4CLBo8tjoBHrUytlN1kfqTHYVMaVA4Q&v=1686079199",
+            "album": "Quick Revive"
+        },
+        "187732915376923467": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_lS0tCQXZ-1ppWJOMhaMel8GKGtnUzsvnU&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_lS0tCQXZ-1ppWJOMhaMel8GKGtnUzsvnU/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCPDOhaQG&rs=AOn4CLBa8Mmhg8B0A7ljEpCsig_bzTju0A&v=1686202224",
+            "album": "Winds of Paradise"
+        },
+        "206562046422345861": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_movr4fRkYisvKvX92G_D6fWfV1umrn3hs&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_movr4fRkYisvKvX92G_D6fWfV1umrn3hs/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCIKr_6MG&rs=AOn4CLDiszLRoh4cueTcK9h20CQ3KNpeXQ&v=1686099330",
+            "album": "Selection:3"
+        },
+        "321688139888393359": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_kW87DzVan7NyJ7j06XBmOHlg1WaFm38LA&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_kW87DzVan7NyJ7j06XBmOHlg1WaFm38LA/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCIDi_aMG&rs=AOn4CLA4dE1oa2TYSqb0pvfNTdK7ZSgERw&v=1686073600",
+            "album": "Bruh Moment (2020 Scraps)"
+        },
+        "633598784099856320": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_n1DHIq4LZlVVBvyilCzrjxAyCmsBSRfY0&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_n1DHIq4LZlVVBvyilCzrjxAyCmsBSRfY0/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCJGzn6QG&rs=AOn4CLD_qLcb-Z1EabBDe3449f3d0mh3Cg&v=1686624657",
+            "album": "Yent Szn 3"
+        },
+        "131921253377227610": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_nm2zfpc5MDyzOp2ftFqdlHBQ-L3tE2BQM&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_nm2zfpc5MDyzOp2ftFqdlHBQ-L3tE2BQM/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCIPhgaQG&rs=AOn4CLBM_1qrbE_tAOEp51oGRYQMeTkRsw&v=1686139011",
+            "album": "Voyager"
+        },
+        "271867710382714948": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_kEzRY57fWs2iqQv7mg9jA8XEwdctH3vdk&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_kEzRY57fWs2iqQv7mg9jA8XEwdctH3vdk/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCLKkkaQG&rs=AOn4CLCsG_4SxEMgAp96U-dAiavg1BZggQ&v=1686393394",
+            "album": "Chapter III"
+        },
+        "322585091946466973": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_nWWfDckTPSOY4nN_5bXMz1y83Qrc160sM&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_nWWfDckTPSOY4nN_5bXMz1y83Qrc160sM/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCILUmaQG&rs=AOn4CLBW1i3Fi_0G31s8k81YFjUNM6ui_w&v=1686530562",
+            "album": "Chapter II"
+        },
+        "219693029017574393": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_kwpt9qeeS577nxNUo8kh2S4R_3gFFf5Ys&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_kwpt9qeeS577nxNUo8kh2S4R_3gFFf5Ys/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCJeClqQG&rs=AOn4CLD82PHRl_xq8BKF2EtuLOC2d-WStg&v=1686470935",
+            "album": "Chapter 1"
+        },
+        "106299219586508927": {
+            "artist": "Inteus",
+            "downloaded": false,
+            "downloading": false,
+            "link": "/playlist?list=OLAK5uy_kA-xQTNx8Az1t4HAFQ9vB1oTWG4A5cAIQ&playnext=1&index=1",
+            "cover": "https://i9.ytimg.com/s_p/OLAK5uy_kA-xQTNx8Az1t4HAFQ9vB1oTWG4A5cAIQ/mqdefault.jpg?sqp=CJT0pKQGir7X7AMGCNaakaQG&rs=AOn4CLDN92pGYYBFP0Vwi5c28qE7L43K_w&v=1686392150",
+            "album": "Selection: 2"
+        }
+    }
+}

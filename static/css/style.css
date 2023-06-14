@@ -60,8 +60,16 @@ a {
     width: 100%;
 }
 
-.page-wrapper {
-    padding-top: 144px;
+#action_list {
+    float: right;
+    padding: 20px;
+    color: white;
+    position: fixed;
+    right: 0;
+}
+
+#action_list a {
+    color: white;
 }
 
 #logo {
@@ -104,9 +112,20 @@ a {
     width: 100%;
 }
 
+.dl_queue_img {
+    position: relative;
+}
+
 .icn-spinner {
   animation: spin-animation 0.9s infinite;
   display: inline-block;
+}
+
+.icn-downloading {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
 }
 
 @keyframes spin-animation {
