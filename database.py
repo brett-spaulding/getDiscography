@@ -83,3 +83,6 @@ class Model:
     def unlink(self, record_id):
         self.env.delete_by_id(record_id)
         return True
+
+    def purge(self):
+        self.env.purge()

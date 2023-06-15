@@ -24,8 +24,9 @@ def process_downloads():
             print(album)
             Album.write(album['id'], {'downloading': True})
             download_album(album)
-        else:
-            return
+    else:
+        # Sometimes the records are not being removed
+        Album.purge()
 
 
 cron = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 3}, daemon=True)
