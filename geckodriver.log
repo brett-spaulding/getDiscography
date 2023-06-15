@@ -3143,3 +3143,119 @@ Missing chrome or resource URL: resource://gre/modules/UpdateListener.sys.mjs
 Missing chrome or resource URL: resource://gre/modules/UpdateListener.jsm
 Missing chrome or resource URL: resource://gre/modules/UpdateListener.sys.mjs
 console.error: "Error during quit-application-granted: [Exception... \"File error: Not found\"  nsresult: \"0x80520012 (NS_ERROR_FILE_NOT_FOUND)\"  location: \"JS frame :: resource:///modules/BrowserGlue.jsm :: _onQuitApplicationGranted/tasks< :: line 1996\"  data: no]"
+1686806031355	geckodriver	INFO	Listening on 127.0.0.1:36363
+1686806031389	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr/bin/firefox" "--marionette" "--window-size=1920,1080" "-headless" "-no-remote" "-profile" "/tmp/rust_mozprofileJgvm9h"
+*** You are running in headless mode.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686806031827	Marionette	INFO	Marionette enabled
+1686806031833	Marionette	INFO	Listening on port 35405
+Read port: 35405
+console.error: "Warning: unrecognized command line flag -window-size\n"
+1686806031984	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.error: ({})
+1686806046243	Marionette	INFO	Stopped listening on port 35405
+JavaScript error: https://www.youtube.com/results?search_query=Grimes, line 12: TypeError: can't access dead object
+1686806295801	geckodriver	INFO	Listening on 127.0.0.1:55905
+1686806296814	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr/bin/firefox" "--marionette" "--window-size=1920,1080" "-headless" "-no-remote" "-profile" "/tmp/rust_mozprofileexAR94"
+*** You are running in headless mode.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686806297249	Marionette	INFO	Marionette enabled
+1686806297253	Marionette	INFO	Listening on port 41899
+console.error: "Warning: unrecognized command line flag -window-size\n"
+Read port: 41899
+1686806297375	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.error: ({})
+1686806308077	Marionette	INFO	Stopped listening on port 41899
+JavaScript error: https://www.youtube.com/results?search_query=Days%20Of%20The%20New, line 12: TypeError: can't access dead object
+1686806724224	geckodriver	INFO	Listening on 127.0.0.1:54079
+1686806725234	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr/bin/firefox" "--marionette" "--window-size=1920,1080" "-headless" "-no-remote" "-profile" "/tmp/rust_mozprofilex1XEiP"
+*** You are running in headless mode.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686806725580	Marionette	INFO	Marionette enabled
+1686806725584	Marionette	INFO	Listening on port 39669
+console.error: "Warning: unrecognized command line flag -window-size\n"
+Read port: 39669
+1686806725705	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.error: ({})
+1686806740282	Marionette	INFO	Stopped listening on port 39669
+JavaScript error: https://www.youtube.com/results?search_query=Asking%20Alexandria, line 12: TypeError: can't access dead object
+1686807031537	geckodriver	INFO	Listening on 127.0.0.1:41229
+1686807032546	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr/bin/firefox" "--marionette" "--window-size=1920,1080" "-headless" "-no-remote" "-profile" "/tmp/rust_mozprofileoMPDxM"
+*** You are running in headless mode.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686807033001	Marionette	INFO	Marionette enabled
+1686807033006	Marionette	INFO	Listening on port 44453
+Read port: 44453
+console.error: "Warning: unrecognized command line flag -window-size\n"
+1686807033216	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.error: ({})
+1686807048717	Marionette	INFO	Stopped listening on port 44453
+JavaScript error: https://www.youtube.com/results?search_query=Led%20Zeppelin, line 12: TypeError: can't access dead object
+1686808393856	geckodriver	INFO	Listening on 127.0.0.1:57647
+1686808394866	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr/bin/firefox" "--marionette" "--window-size=1920,1080" "-headless" "-no-remote" "-profile" "/tmp/rust_mozprofilerjgKYR"
+*** You are running in headless mode.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686808395210	Marionette	INFO	Marionette enabled
+1686808395214	Marionette	INFO	Listening on port 33941
+console.error: "Warning: unrecognized command line flag -window-size\n"
+Read port: 33941
+1686808395321	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.error: ({})
+1686808405001	Marionette	INFO	Stopped listening on port 33941
+JavaScript error: https://www.youtube.com/results?search_query=Dr%20Acula, line 12: TypeError: can't access dead object
+JavaScript error: https://www.youtube.com/results?search_query=Dr%20Acula, line 12: TypeError: can't access dead object
+1686808418465	geckodriver	INFO	Listening on 127.0.0.1:47061
+1686808419478	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr/bin/firefox" "--marionette" "--window-size=1920,1080" "-headless" "-no-remote" "-profile" "/tmp/rust_mozprofileJGGmMD"
+*** You are running in headless mode.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686808419851	Marionette	INFO	Marionette enabled
+1686808419855	Marionette	INFO	Listening on port 42383
+Read port: 42383
+console.error: "Warning: unrecognized command line flag -window-size\n"
+1686808419971	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.error: ({})
+1686808434538	Marionette	INFO	Stopped listening on port 42383
+JavaScript error: https://www.youtube.com/results?search_query=Dr%20Acula%20Discography, line 12: TypeError: can't access dead object
+1686808480932	geckodriver	INFO	Listening on 127.0.0.1:47693
+1686808481944	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr/bin/firefox" "--marionette" "--window-size=1920,1080" "-headless" "-no-remote" "-profile" "/tmp/rust_mozprofileMrsLkq"
+*** You are running in headless mode.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686808482306	Marionette	INFO	Marionette enabled
+1686808482311	Marionette	INFO	Listening on port 43751
+Read port: 43751
+console.error: "Warning: unrecognized command line flag -window-size\n"
+1686808482434	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.error: ({})
+1686808496386	Marionette	INFO	Stopped listening on port 43751
+JavaScript error: https://www.youtube.com/results?search_query=Switchfoot, line 12: TypeError: can't access dead object
+1686808534217	geckodriver	INFO	Listening on 127.0.0.1:49323
+1686808535226	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr/bin/firefox" "--marionette" "--window-size=1920,1080" "-headless" "-no-remote" "-profile" "/tmp/rust_mozprofilecxRYWo"
+*** You are running in headless mode.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686808535561	Marionette	INFO	Marionette enabled
+1686808535566	Marionette	INFO	Listening on port 46565
+console.error: "Warning: unrecognized command line flag -window-size\n"
+Read port: 46565
+1686808535675	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.error: ({})
+1686808549837	Marionette	INFO	Stopped listening on port 46565
+JavaScript error: https://www.youtube.com/results?search_query=Dr%20Acula, line 13: TypeError: can't access dead object
+JavaScript error: https://www.youtube.com/results?search_query=Dr%20Acula, line 13: TypeError: can't access dead object
+JavaScript error: https://www.youtube.com/results?search_query=Dr%20Acula, line 13: TypeError: can't access dead object
+JavaScript error: https://www.youtube.com/results?search_query=Dr%20Acula, line 13: TypeError: can't access dead object

@@ -56,7 +56,7 @@ def download_album(album):
             print('!!!!!!!!!')
             print(e)
 
-    Album.write(album['id'], {'downloaded': True, 'downloading': False})
+    Album.unlink(album['id'])
 
 
 def download_file(url, output):

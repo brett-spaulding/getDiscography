@@ -28,7 +28,7 @@ $('.queue_btn').on('click', () => {
         clearInterval(modalPolling);
     }
     fill_download_queue();
-    modalPolling = setInterval(fill_download_queue, 4000);
+    modalPolling = setInterval(fill_download_queue, 12000);
     appModal.modal('toggle');
 })
 
