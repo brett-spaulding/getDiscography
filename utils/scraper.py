@@ -48,7 +48,7 @@ def scrape(artist):
 
     try:
         # get the financial value when it's populated to the page
-        value_element = WebDriverWait(browser, 5).until(
+        value_element = WebDriverWait(browser, 10).until(
             EC.presence_of_element_located(locator=(By.XPATH, '//div[@id="shelf-container"]'))
         )
         element = browser.find_element(By.XPATH, ALBUM_CONTAINER_ITEMS_XPATH)
@@ -74,7 +74,7 @@ def scrape(artist):
                 time.sleep(1)
 
     finally:
-        # after 5 seconds, give up
+        # after 10 seconds, give up
         browser.quit()
 
     return scrape_data

@@ -29,7 +29,7 @@ def process_downloads():
         Album.purge()
 
 
-cron = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 3}, daemon=True)
+cron = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 2}, daemon=True)
 cron.add_job(process_downloads, 'interval', minutes=1)
 cron.start()
 

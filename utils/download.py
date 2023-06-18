@@ -14,9 +14,6 @@ def download_album(album):
     :param album: Dict of album data
     :return:
     """
-    print('------')
-    print('Album Data')
-    print(album)
     artist = album.get('artist')
     artist_path = MEDIA_FOLDER + '/%s' % artist
     if not os.path.exists(artist_path):
@@ -55,8 +52,8 @@ def download_album(album):
         except Exception as e:
             print('!!!!!!!!!')
             print(e)
-
-    Album.unlink(album['id'])
+        finally:
+            Album.unlink(album['id'])
 
 
 def download_file(url, output):
