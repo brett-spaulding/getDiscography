@@ -24,3 +24,6 @@ python app.py
 ```
 
 The service will then be accessible at http://localhost for as long as the terminal stays open.  To shutdown the service simply close the terminal or ctl + c
+
+## Known issues
+The latest versions of Ubuntu (22.04+ I believe) have swicted over to symlinking Firefox to the snap packages. Which causes an issue with the selenium driver.  I suppose you could probably point to the executable file directly in the snap (not the symlink).  I just use docker with a distro that doesn't have this problem, personally.
