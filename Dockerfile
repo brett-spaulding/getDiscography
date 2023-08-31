@@ -1,4 +1,4 @@
-FROM python:3.6.15-slim-bullseye
+FROM debian:bullseye-slim
 RUN apt update && apt upgrade -y
 RUN apt install firefox-esr  -y
 RUN apt install curl python3-pip -y
