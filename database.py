@@ -1,5 +1,6 @@
 import json
 import operator as oprtr
+from const import *
 from pysondb import PysonDB
 
 
@@ -26,7 +27,7 @@ class Model:
     #  class objects that can be manipulated easier by things like update_by_id
 
     def __init__(self, name):
-        self.env = PysonDB('/home/stonesoft/Apps/getDiscography/database/%s.json' % name)
+        self.env = PysonDB(CWD + '/database/%s.json' % name)
 
     def _search(self, records, params):
         """
