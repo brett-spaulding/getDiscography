@@ -1,0 +1,10 @@
+
+navidrome/
+music/
+.idea/
+
+utils/__pycache__/
+
+*.pyc
+
+geckodriver.log

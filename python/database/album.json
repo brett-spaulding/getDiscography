@@ -1,0 +1,12 @@
+{
+    "version": 2,
+    "keys": [
+        "album",
+        "artist",
+        "cover",
+        "downloaded",
+        "downloading",
+        "link"
+    ],
+    "data": {}
+}
