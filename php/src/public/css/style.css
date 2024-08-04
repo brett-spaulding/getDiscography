@@ -1,0 +1,159 @@
+body {
+    background-color: #f5f5f5;
+    background-image: url('/img/bg.png');
+    background-size: cover;
+}
+
+.align-center {
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Layout */
+.centered {
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+}
+
+#disk {
+    width: 66vw;
+    border-radius: 1200px;
+    aspect-ratio: 1 / 1 !important;
+    background-image: url('/img/vinyl.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.card {
+    box-shadow: 0 0 36px 0px rgba(128, 128, 128, 0.128);
+    background-color: white;
+    padding: 32px;
+    border-radius: 20px;
+}
+
+.modal-body {
+    background-color: #f5f5f5;
+}
+
+.navbar-avatar {
+    max-height: 40px;
+    border-radius: 30px;
+    height: 40px;
+}
+
+.main-menu-link {
+    /*font-size: 24px;*/
+    /*font-family: RobotoSlab;*/
+}
+
+a {
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+#action_list {
+    float: right;
+    padding: 20px;
+    color: white;
+    position: fixed;
+    right: 0;
+}
+
+#action_list a {
+    color: white;
+}
+
+#logo {
+    display: flex;
+    align-items: baseline;
+}
+
+#search_bar {
+    background: url('/svg/search-solid.svg') no-repeat scroll 12px 7px;
+    padding-left: 48px;
+    background-size: 20px;
+    border-radius: 66px;
+}
+
+#navigation {
+    /*padding-top: 32px;*/
+}
+
+.navbar {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+#navigation_logo {
+    max-width: 216px;
+}
+
+#content {
+    min-height: 100vh;
+}
+
+#footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.logo {
+    width: 100%;
+}
+
+.dl_queue_img {
+    position: relative;
+}
+
+.icn-spinner {
+    animation: spin-animation 0.9s infinite;
+    display: inline-block;
+}
+
+.icn-downloading {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.vinyl-card {
+    background-image: url('/img/vinyl-card.png');
+    background-position: right;
+    border-radius: 20px;
+}
+
+@keyframes spin-animation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes spin{
+	from{transform:rotate(0deg)}
+	to{transform:rotate(360deg)}
+}
+
+@-webkit-keyframes spin {
+  from {-webkit-transform:rotate(0deg);}
+  to {  -webkit-transform:rotate(360deg);}
+}
+
+@-moz-keyframes spin {
+  from {-moz-transform:rotate(0deg);}
+  to {  -moz-transform:rotate(360deg);}
+}

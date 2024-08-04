@@ -1,3 +1,4 @@
+
 networks:
     laravel:
 
@@ -5,8 +6,8 @@ services:
 
     nginx:
         build:
-            context: ./nginx/dockerfiles
-            dockerfile: nginx.dockerfile
+            context: ./nginx
+            dockerfile: dockerfiles/nginx.dockerfile
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
@@ -24,8 +25,8 @@ services:
 
     php:
         build:
-            context: ./php/dockerfiles
-            dockerfile: php.dockerfile
+            context: ./php
+            dockerfile: dockerfiles/php.dockerfile
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
@@ -38,7 +39,12 @@ services:
             - laravel
 
     python:
-        build: ./python
+        build:
+            context: ./python
+            dockerfile: dockerfiles/python.dockerfile
+            args:
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
         command: python3 app.py
         ports:
             - "5000:5000"
@@ -61,8 +67,8 @@ services:
 
     composer:
         build:
-            context: ./php/dockerfiles
-            dockerfile: php.dockerfile
+            context: ./php
+            dockerfile: dockerfiles/php.dockerfile
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
@@ -105,8 +111,8 @@ services:
 
     artisan:
         build:
-            context: ./php/dockerfiles
-            dockerfile: php.dockerfile
+            context: ./php
+            dockerfile: dockerfiles/php.dockerfile
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
