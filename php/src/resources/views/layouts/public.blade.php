@@ -32,7 +32,7 @@
                 @include('components.action-menu');
 
                 <main class="container">
-                    {{ $slot }}
+                    @yield('content')
                 </main>
 
                 <!-- Modals -->
