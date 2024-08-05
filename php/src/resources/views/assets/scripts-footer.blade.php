@@ -3,7 +3,7 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(window).on('load', function () {
-        $("#loader-wrapper").fadeOut(900);
+        //$("#loader-wrapper").fadeOut(900);
     });
 </script>
 <script src="{{ asset('js/app.js') }}"></script>

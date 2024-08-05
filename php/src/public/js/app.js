@@ -1,6 +1,4 @@
 const appModal = $('#modalDownloadQueue');
-const appModalContent = $('#modal_content');
-let modalPolling = false;
 
 function proc_notification(icon, title, text) {
     Swal.fire({
@@ -10,25 +8,12 @@ function proc_notification(icon, title, text) {
     })
 }
 
-function fill_download_queue() {
-    $.ajax({
-        url: '/api/v1/get/queue'
-    }).done((res) => {
-        appModalContent.html(res);
-    })
-}
-
 $('.settings_btn').on('click', () => {
     $('#modalSettings').modal('toggle');
 })
 
 $('.queue_btn').on('click', () => {
     console.log('Get Queue!');
-    if (modalPolling) {
-        clearInterval(modalPolling);
-    }
-    fill_download_queue();
-    modalPolling = setInterval(fill_download_queue, 12000);
     appModal.modal('toggle');
 })
 
@@ -56,5 +41,17 @@ $('#download_btn').on('click', () => {
     } else {
         proc_notification(icon, title, text);
     }
+})
 
+document.addEventListener('alpine:init', () => {
+    console.log('Alpine:init');
+    Alpine.store('app', {
+        init() {
+            this.Artists = [];
+        },
+
+        Artists: [],
+        Queue: false,
+
+    })
 })

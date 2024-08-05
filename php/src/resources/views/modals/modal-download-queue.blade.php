@@ -10,7 +10,9 @@
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="modal_content"></div>
+                <div id="modal_content">
+                    @include('components.download-queue')
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
