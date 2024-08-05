@@ -1,10 +1,12 @@
 <div id="action_list">
     <span>
-        <a href="#download-queue" class="pl-2">
-            <i class="las la-2x la-list queue_btn"></i>
+        <a id="queue_btn" href="#download-queue" class="p-2">
+            <i class="las la-list queue_btn"></i>
+            Queue
         </a>
-        <a href="#settings" class="pl-2">
-            <i class="las la-2x la-cog settings_btn"></i>
+        <a id="settings_btn" href="#settings" class="p-2">
+            <i class="las la-cog settings_btn"></i>
+            Settings
         </a>
     </span>
 </div>

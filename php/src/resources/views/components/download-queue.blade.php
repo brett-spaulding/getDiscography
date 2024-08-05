@@ -1,5 +1,7 @@
 <div class="row">
-    <template x-for="album in $store.app.Queue" x-if="$store.app.Queue">
+
+    <template x-if="$store.app.Queue.length > 0" >
+        <template x-for="album in $store.app.Queue">
         <div class="col-12">
             <div class="queue_card">
                 <div class="card mb-3 p-0">
@@ -15,18 +17,19 @@
                                     </div>
                                 </template>
                                 <!-- Album Art -->
-                                <img src="@{{ album.image }}" class="img-fluid rounded-start"
-                                     alt="@{{ album_id.name }}" style="width: 100%; height: 100%; min-height: 180px;">
+                                <img :src="album.image" class="img-fluid rounded-start"
+                                     :alt="album.name" style="width: 100%; height: 100%; min-height: 180px;">
                             </div>
 
                         </div>
                         <div class="col-md-9 vinyl-card">
                             <div class="card-body">
-                                <a href="@{{ album.url_remote }}" target="_blank">
+                                <a :href="album.url_remote" target="_blank">
                                     <h3 class="card-title">@{{ album.name }}</h3>
                                 </a>
                                 <h5 class="card-text"
-                                    style="font-weight: bold; font-family: serif;">@{{ album.artist_id.name }}</h5>
+                                    style="font-weight: bold; font-family: serif;"><span x-text="album.artist_id.name"/>
+                                </h5>
 
                                 <template x-if="album.state === 'progress'">
                                     <p>Downloading...</p>
@@ -44,7 +47,9 @@
             </div>
         </div>
     </template>
-    <template x-if="!$store.app.Queue">
+    </template>
+
+    <template x-if="$store.app.Queue.length === 0">
         <p>Queue is empty</p>
     </template>
 

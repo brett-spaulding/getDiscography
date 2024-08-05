@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body x-data="{}">
 
 <div id="loader-wrapper" class="bg-white position-fixed z-3 w-100 h-100 text-center">
     <div class="centered text-center" role="status" style="position: fixed; top: 50%;">
