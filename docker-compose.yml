@@ -131,3 +131,57 @@ services:
             - "8025:8025"
         networks:
             - laravel
+
+    chrome:
+        image: selenium/node-chrome:nightly
+        shm_size: 8gb
+        networks:
+            - laravel
+        depends_on:
+            - selenium-hub
+        environment:
+            - SE_EVENT_BUS_HOST=selenium-hub
+            - SE_EVENT_BUS_PUBLISH_PORT=4442
+            - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+            - SE_NODE_MAX_SESSIONS=5
+            - SE_NODE_MAX_SESSION=5
+
+    edge:
+        image: selenium/node-edge:nightly
+        shm_size: 8gb
+        networks:
+            - laravel
+        depends_on:
+            - selenium-hub
+        environment:
+            - SE_EVENT_BUS_HOST=selenium-hub
+            - SE_EVENT_BUS_PUBLISH_PORT=4442
+            - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+            - SE_NODE_MAX_SESSIONS=5
+            - SE_NODE_MAX_SESSION=5
+
+    firefox:
+        image: selenium/node-firefox:nightly
+        shm_size: 8gb
+        networks:
+            - laravel
+        depends_on:
+            - selenium-hub
+        environment:
+            - SE_EVENT_BUS_HOST=selenium-hub
+            - SE_EVENT_BUS_PUBLISH_PORT=4442
+            - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+            - SE_NODE_MAX_SESSIONS=5
+            - SE_NODE_MAX_SESSION=5
+
+    selenium-hub:
+        image: selenium/hub:latest
+        networks:
+            - laravel
+        environment:
+            JAVA_OPTS: "-Xmx8g -Xms2g"
+        container_name: selenium-hub
+        ports:
+            - "4442:4442"
+            - "4443:4443"
+            - "4444:4444"
