@@ -16,7 +16,7 @@
     <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="{{ asset('favicon.svg') }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <meta name="theme-color" content="#1db8d7">
-    @include('assets.scripts-header');
+    @include('assets.scripts-header')
 
 </head>
 
@@ -35,18 +35,18 @@
             <div class="page-content">
 
                 <!-- Navigation -->
-                @include('components.action-menu');
+                @include('components.action-menu')
 
                 <main class="container">
                     @yield('content')
                 </main>
 
                 <!-- Modals -->
-                @include('modals.modal-download-queue');
-                @include('modals.modal-settings');
+                @include('modals.modal-download-queue')
+                @include('modals.modal-settings')
 
                 <!-- Utilities -->
-                @include('utils.outdated-browser');
+                @include('utils.outdated-browser')
 
             </div>
         </div>
@@ -54,7 +54,7 @@
 </div>
 
 <!-- Assets -->
-@include('assets.zapp');
-@include('assets.scripts-footer');
+@include('assets.zapp')
+@include('assets.scripts-footer')
 </body>
 </html>

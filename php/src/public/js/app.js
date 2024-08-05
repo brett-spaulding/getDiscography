@@ -53,5 +53,8 @@ document.addEventListener('alpine:init', () => {
         Artists: [],
         Queue: false,
 
-    })
+    });
+    
+    $("#loader-wrapper").fadeOut(900);
+
 })
