@@ -37,6 +37,7 @@ $('#download_btn').on('click', () => {
                     icon = 'success';
                     title = 'Shazam!';
                     proc_notification(icon, title, 'Artist found');
+                    $('#search_bar').val('');
                     loader.fadeOut(700);
                 },
                 error: (response) => {
