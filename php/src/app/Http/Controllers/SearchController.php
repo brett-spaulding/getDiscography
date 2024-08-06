@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artist;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,14 @@ use Facebook\WebDriver\WebDriverBy;
 
 class SearchController extends Controller
 {
+
+    protected static function buildResponse($artist_id) {
+        return [
+            'name' => $artist_id->name,
+            'url_remote' => $artist_id->url_remote,
+            'thumbnail' => $artist_id->thumbnail,
+        ];
+    }
 
     protected function setUp()
     {
@@ -28,13 +37,8 @@ class SearchController extends Controller
 
     public function search_artist(Request $request, string $artist)
     {
-        \Log::info('Getting Artist: ' . $artist);
-//        $url = 'https://example.com';
+        $response = [];
         $url = 'https://music.youtube.com/search?q=' . str_replace(' ', '+', $artist);
-        \Log::info('Search URL: ' . $url);
-        \Log::info('=======================================');
-
-        // the URL to the local Selenium Server
         $driver = $this->setUp();
         $driver->get($url);
 
@@ -53,7 +57,6 @@ class SearchController extends Controller
             $divCount += 1;
 
             $artists = $content->findElements(WebDriverBy::xpath('//ytmusic-responsive-list-item-renderer'));
-
             if ($artists) {
                 $resultCap = 6;
                 $resultIndex = 0;
@@ -62,33 +65,41 @@ class SearchController extends Controller
                     $hasText = $artist->getText();
                     if ($hasText) {
                         $resultIndex += 1;
-                        \Log::info('===================================================================================================================================');
-                        \Log::info('===================================================================================================================================');
-//                        \Log::info($artist->getDomProperty('innerHTML'));
 
-                        // Artist Data Targeting
                         $artistThumbnail = $artist->findElement(WebDriverBy::cssSelector('img'))->getAttribute('src');
                         $artistLink = $artist->findElements(WebDriverBy::cssSelector('a'));
                         $artistHref = $artistLink[0]->getAttribute('href');
                         $artistName = $artistLink[0]->getAttribute('aria-label');
 
-                        \Log::info($artistName . ': ' . $artistHref);
-                        \Log::info($artistThumbnail);
+                        $existingArtist = Artist::findByName($artistName)->first();
+                        if (!$existingArtist) {
+                            $artist_id = new Artist();
+                            $artist_id->name = $artistName;
+                            $artist_id->thumbnail = $artistThumbnail;
+                            $artist_id->url_remote = $artistHref;
+                            $artist_id->save();
 
+                            $response += [$this->buildResponse($artist_id)];
+                        } elseif (!$existingArtist->selected) {
+                            // Send the unselected artists back to client as suggestions
+                            $response += [$this->buildResponse($existingArtist)];
+                        }
+
+                        // Limit the results, there are alot of them
                         if($resultCap <= $resultIndex) {
                             break;
                         }
-
                     }
                 }
 
+                // There are 4 div#contents returned, one empty and 3 with duplicated info
                 if ($divCount === 1) {
                     break;
                 }
 
             }
         }
-
         $driver->quit();
+        return response()->json($response);
     }
 }
