@@ -14,6 +14,10 @@ $('#settings_btn').on('click', () => {
     $('#modalSettings').modal('toggle');
 })
 
+$('#catalog_btn').on('click', () => {
+    $('#modalCatalog').modal('toggle');
+})
+
 $('#queue_btn').on('click', () => {
     appModal.modal('toggle');
 })
@@ -61,12 +65,15 @@ document.addEventListener('alpine:init', () => {
     console.log('Alpine:init');
     Alpine.store('app', {
         init() {
+            // TODO: Poll for artists and queue
             this.Artists = [];
             this.Queue = [];
+            this.ArtistResults = []
         },
 
-        Artists: [],
-        Queue: false,
+        Artists: [],          // Rendered in the 'Artists' menu
+        ArtistResults: [],   // Rendered in the
+        Queue: [],          // Rendered in the 'Queue' menu
 
     });
 

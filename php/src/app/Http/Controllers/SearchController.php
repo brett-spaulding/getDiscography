@@ -13,7 +13,10 @@ use Facebook\WebDriver\WebDriverBy;
 
 class SearchController extends Controller
 {
-    protected function getArtist($driver)
+
+    public $defaultArtistData = ['id', 'name', 'thumbnail', 'url_remote'];
+
+    protected function scrapeArtist($driver)
     {
         $response = [];
         $artistContainer = $driver->findElement(WebDriverBy::cssSelector('.main-card-content-container'));
@@ -22,24 +25,16 @@ class SearchController extends Controller
         $artistHref = $artistLink[0]->getAttribute('href');
         $artistName = $artistLink[0]->getAttribute('title');
 
-        if ($artistHref && $artistThumbnail && $artistName) {
-            $existingArtist = Artist::findByName($artistName)->first();
-
-            if (!$existingArtist) {
-                $artist_id = new Artist();
-                $artist_id->name = $artistName;
-                $artist_id->thumbnail = $artistThumbnail;
-                $artist_id->url_remote = $artistHref;
-                $artist_id->save();
-                $response[] = $this->buildResponse($artist_id);
-            } elseif (!$existingArtist->selected) {
-                $this->buildResponse($existingArtist);
-            }
-        }
-        return $response;
+        $data = [
+            'name' => $artistName,
+            'thumbnail' => $artistThumbnail,
+            'url_remote' => $artistHref,
+        ];
+        $artist_id = Artist::findOrCreateByName($artistName, $data);
+        return $artist_id->read($this->defaultArtistData);
     }
 
-    protected function getArtists($driver)
+    protected function scrapeArtists($driver)
     {
         $response = [];
         // Click the artist button to force a "structure" of results
@@ -47,7 +42,6 @@ class SearchController extends Controller
         $driver->wait(10, 500)->until(
             WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath($artistBtnXpath))
         );
-
         $driver->findElement(WebDriverBy::xpath($artistBtnXpath))->click();
         // Youtube has multiple elements with the same ID (Naughty!).  We will give a reasonable analog time to render.
         sleep(5);
@@ -56,7 +50,6 @@ class SearchController extends Controller
         $divCount = 0;
         foreach ($contentDivs as $content) {
             $divCount += 1;
-
             $artists = $content->findElements(WebDriverBy::xpath('//ytmusic-responsive-list-item-renderer'));
             if ($artists) {
                 $resultCap = 6;
@@ -66,27 +59,19 @@ class SearchController extends Controller
                     $hasText = $artist->getText();
                     if ($hasText) {
                         $resultIndex += 1;
-
+                        // Artist Details
                         $artistThumbnail = $artist->findElement(WebDriverBy::cssSelector('img'))->getAttribute('src');
                         $artistLink = $artist->findElements(WebDriverBy::cssSelector('a'));
                         $artistHref = $artistLink[0]->getAttribute('href');
                         $artistName = $artistLink[0]->getAttribute('aria-label');
-
-                        $existingArtist = Artist::findByName($artistName)->first();
-                        if (!$existingArtist) {
-                            $artist_id = new Artist();
-                            $artist_id->name = $artistName;
-                            $artist_id->thumbnail = $artistThumbnail;
-                            $artist_id->url_remote = $artistHref;
-                            $artist_id->save();
-                            \Log::info('New Artist added: ' . $artist_id->name);
-                            $response[] = $this->buildResponse($artist_id);
-                        } elseif ($existingArtist->exists() && !$existingArtist->selected) {
-                            // Send the unselected artists back to client as suggestions
-                            \Log::info('Artist already found' . $existingArtist->name);
-                            $response[] = $this->buildResponse($existingArtist);
-                        }
-
+                        // Create if we don't have it yet
+                        $data = [
+                            'name' => $artistName,
+                            'thumbnail' => $artistThumbnail,
+                            'url_remote' => $artistHref,
+                        ];
+                        $artist_id = Artist::findOrCreateByName($artistName, $data);
+                        $response[] = $artist_id->read($this->defaultArtistData);
                         // Limit the results, there are alot of them
                         if ($resultCap <= $resultIndex) {
                             break;
@@ -97,19 +82,9 @@ class SearchController extends Controller
                 if ($divCount === 1) {
                     break;
                 }
-
             }
         }
         return $response;
-    }
-
-    protected static function buildResponse($artist_id)
-    {
-        return [
-            'name' => $artist_id->name,
-            'url_remote' => $artist_id->url_remote,
-            'thumbnail' => $artist_id->thumbnail,
-        ];
     }
 
     protected function setUp()
@@ -125,7 +100,7 @@ class SearchController extends Controller
         return $driver;
     }
 
-    public function search_artist(Request $request, string $artist)
+    public function search_artist(string $artist)
     {
         $response = [];
         $url = 'https://music.youtube.com/search?q=' . str_replace(' ', '+', $artist);
@@ -134,14 +109,13 @@ class SearchController extends Controller
 
         // Add handling for no artist button; Some artists searches don't have this option (Ex The Black Dahlia Murder)
         try {
-            $response = $this->getArtists($driver);
+            $response = $this->scrapeArtists($driver);
         } catch (\Exception) {
             \Log::warning('Could not get list of artists, attempting to get single artist card..');
-            $response = $this->getArtist($driver);
+            $response = $this->scrapeArtist($driver);
         } finally {
             $driver->quit();
         }
-
         return response()->json($response);
     }
 }
