@@ -19,15 +19,11 @@ $('#queue_btn').on('click', () => {
 })
 
 $('#download_btn').on('click', () => {
-    console.log('Blocking UI');
     loader.fadeIn(300);
 
     let artist = $('#search_bar').val();
-    // Prevent
-    $('#search_bar').val('');
     let icon = 'error';
     let title = 'What the flip?!';
-    let text = 'You need to add an artist bro..';
 
     setTimeout(() => {
         if (artist) {
@@ -40,7 +36,7 @@ $('#download_btn').on('click', () => {
                     console.log('===========');
                     icon = 'success';
                     title = 'Shazam!';
-                    proc_notification(icon, title, text);
+                    proc_notification(icon, title, 'Artist found');
                     loader.fadeOut(700);
                 },
                 error: (response) => {
@@ -53,7 +49,7 @@ $('#download_btn').on('click', () => {
             });
 
         } else {
-            proc_notification(icon, title, text);
+            proc_notification(icon, title, 'You need to add an artist, c\'mon man!');
             loader.fadeOut(700);
         }
     }, 100);
