@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artist;
+use App\Models\WebDriver;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,18 @@ use Facebook\WebDriver\WebDriverBy;
 class SearchController extends Controller
 {
 
+    /**
+     * The default Artist data to be returned from this controller.
+     *
+     * @return array<string, string>
+     */
     public $defaultArtistData = ['id', 'name', 'thumbnail', 'url_remote'];
 
+    /**
+     * Fallback scrape option for the youtube music search page; in some cases there are no additional artists available
+     *
+     * @return RemoteWebDriver
+     */
     protected function scrapeArtist($driver)
     {
         $response = [];
@@ -31,9 +42,15 @@ class SearchController extends Controller
             'url_remote' => $artistHref,
         ];
         $artist_id = Artist::findOrCreateByName($artistName, $data);
-        return $artist_id->read($this->defaultArtistData);
+        return $artist_id->read();
     }
 
+    /**
+     * The first scrape that is attempted; this will return the artists and similar artists per youtube so we can return
+     * the users search with additional suggestions, or a list of suggestions if their exact search isn't found.
+     *
+     * @return RemoteWebDriver
+     */
     protected function scrapeArtists($driver)
     {
         $response = [];
@@ -71,7 +88,7 @@ class SearchController extends Controller
                             'url_remote' => $artistHref,
                         ];
                         $artist_id = Artist::findOrCreateByName($artistName, $data);
-                        $response[] = $artist_id->read($this->defaultArtistData);
+                        $response[] = $artist_id->read();
                         // Limit the results, there are alot of them
                         if ($resultCap <= $resultIndex) {
                             break;
@@ -79,32 +96,17 @@ class SearchController extends Controller
                     }
                 }
                 // There are 4 div#contents returned, one empty and 3 with duplicated info
-                if ($divCount === 1) {
-                    break;
-                }
+                break;
             }
         }
-        return $response;
-    }
 
-    protected function setUp()
-    {
-        $host = 'http://selenium-hub:4444';
-        $capabilities = DesiredCapabilities::chrome();
-        $chromeOptions = new ChromeOptions();
-        // TODO: Add '--headless' back in to arguments
-        $chromeOptions->addArguments(['--no-sandbox', '--disable-dev-shm-usage']);
-        $capabilities->setCapability(ChromeOptions::CAPABILITY_W3C, $chromeOptions);
-        $driver = RemoteWebDriver::create($host, $capabilities);
-        $driver->manage()->window()->maximize();
-        return $driver;
+        return $response;
     }
 
     public function search_artist(string $artist)
     {
-        $response = [];
         $url = 'https://music.youtube.com/search?q=' . str_replace(' ', '+', $artist);
-        $driver = $this->setUp();
+        $driver = WebDriver::setUp();
         $driver->get($url);
 
         // Add handling for no artist button; Some artists searches don't have this option (Ex The Black Dahlia Murder)
@@ -118,4 +120,5 @@ class SearchController extends Controller
         }
         return response()->json($response);
     }
+
 }

@@ -24,7 +24,6 @@ class Artist extends Model
         return $artist;
     }
 
-    // TODO: discuss why I can't return Artist or Collection, because it failes either way but says its returning Artist
     public static function findOrCreateByName(string $name, array $data = [])
     {
         $artist = self::findByName($name)->first();
@@ -36,12 +35,8 @@ class Artist extends Model
 
     public function read(array $fields = []): array
     {
-        $data = $this->toArray();
-        // Filter
-        if ($fields) {
-            $data = array_intersect_key($data, array_flip(array_keys($fields)));
-        }
-        return $data;
+        // TODO: Add filter for fields if provided
+        return $this->toArray();;
     }
 
 }
