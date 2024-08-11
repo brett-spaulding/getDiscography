@@ -20,12 +20,12 @@ class Album extends Model
         $this->save();
     }
 
-    public static function findByName($name)
+    public static function findByArtistTitle(Artist $artist, string $name)
     {
-        return self::where('name', '=', $name)->get();
+        return self::where('name', '=', $name)->where('artist_id', '=', $artist->id)->first();
     }
 
-    public static function findById($id)
+    public static function findById(int $id)
     {
         return self::where('id', '=', $id)->get();
     }
@@ -42,10 +42,10 @@ class Album extends Model
         return $album;
     }
 
-    public static function findOrCreateByName(string $name, array $data = [])
+    public static function findOrCreateByName($artist_id, string $name, array $data = [])
     {
-        $album = self::findByName($name)->first();
-        if (!$album && $data) {
+        $album = self::findByArtistTitle($artist_id, $name);
+        if ($album->exists() && $data) {
             $album = self::addAlbum($data['name'], $data['thumbnail'], $data['url_remote'], $data['image'], $data['artist_id']);
         }
         return $album;

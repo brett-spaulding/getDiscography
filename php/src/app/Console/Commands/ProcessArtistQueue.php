@@ -27,11 +27,11 @@ class ProcessArtistQueue extends Command
      */
     public function handle()
     {
-        $records = ArtistQueue::where('state', 'pending')->get();
-        $bar = new ProgressBar($this->output, count($records));
+        $artists = ArtistQueue::where('state', 'pending')->get();
+        $bar = new ProgressBar($this->output, count($artists));
         $bar->start();
-        foreach ($records as $record) {
-            $record->process_artist();
+        foreach ($artists as $artist) {
+            $artist->process_artist();
             $bar->advance();
         }
     }

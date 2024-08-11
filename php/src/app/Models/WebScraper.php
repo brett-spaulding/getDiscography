@@ -136,10 +136,10 @@ class WebScraper
                             'url_remote' => $albumHref,
                             'image' => $imageFileUrl,
                         ];
-                        $album_id = Album::findOrCreateByName($albumTitle, $data);
+                        $album_id = Album::findOrCreateByName($artist_id, $albumTitle, $data);
 
                         $album_queue = new AlbumQueue();
-                        $album_queue_id = $album_queue->enqueue($album_id->id);
+                        $album_queue->enqueue($album_id);
                     }
                 }
             }
