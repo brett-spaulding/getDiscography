@@ -32,7 +32,9 @@ class ArtistQueue extends Model
         $artist_id = Artist::where('id', $this->artist_id)->get()->first();
         if ($artist_id->count() > 0) {
             try {
-                WebScraper::scrapeAlbums($driver, $artist_id);
+                $album_count = WebScraper::scrapeAlbums($driver, $artist_id);
+                $artist_id->album_count = $album_count;
+                $artist_id->save();
             } catch (Exception $e) {
                 \Log::warning('Failed to scrape albums: ' . $e->getMessage());
             } finally {

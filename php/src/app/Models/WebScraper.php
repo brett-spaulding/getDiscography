@@ -110,7 +110,7 @@ class WebScraper
     {
         $url = 'https://music.youtube.com/' . $artist_id->url_remote;
         $driver->get($url);
-        $response = [];
+        $response = 0;
         $albumBtn = $driver->findElement(WebDriverBy::xpath('//a[text()="Albums"]'));
         if ($albumBtn) {
             $albumBtn->click();
@@ -120,6 +120,7 @@ class WebScraper
                 $albumContainers = $item->findElements(WebDriverBy::cssSelector('.ytmusic-grid-renderer'));
                 if ($albumContainers) {
                     foreach ($albumContainers as $albumContainer) {
+                        $response += 1;
                         $albumLink = $albumContainer->findElement(WebDriverBy::cssSelector('a'));
                         $albumHref = $albumLink->getAttribute('href');
                         $albumTitle = $albumLink->getAttribute('title');
