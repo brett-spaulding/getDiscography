@@ -122,13 +122,9 @@ document.addEventListener('alpine:init', () => {
     Alpine.store('app', {
         init() {
             // TODO: Poll for artists and queue
-            // this.Artists = [];
             this.Queue = [];
-            // this.ArtistResults = [];
         },
 
-        // Artists: [],          // Rendered in the 'Artists' modal
-        // ArtistResults: [],   // Rendered in the SWAL popup
         Queue: [],          // Rendered in the 'Queue' modal
 
     });
@@ -138,6 +134,7 @@ document.addEventListener('alpine:init', () => {
 });
 
 $(document).ready(function () {
+    //Datatable for 'Catalog' menu
     let ArtistTable = $('#artistsCatalogDatatable').DataTable({
         ajax: '/api/artists',
         type: 'get',
@@ -165,10 +162,9 @@ $(document).ready(function () {
             }
         ],
     });
-
-    // const getArtistTableInterval = setInterval(function() {
-    //     table.ajax.reload();
-    // }, 5000);
-
+    // Polling for table update
+    const getArtistTableInterval = setInterval(function() {
+        table.ajax.reload();
+    }, 5000);
 });
 
