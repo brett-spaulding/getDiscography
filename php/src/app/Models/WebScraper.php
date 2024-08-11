@@ -1,35 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use App\Models\Artist;
-use App\Models\WebDriver;
 use App\Utils\ImageUrl;
-use Facebook\WebDriver\WebDriverExpectedCondition;
-use Illuminate\Http\Request;
-use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\WebDriverBy;
-use Illuminate\Support\Facades\App;
-use Nette\Utils\Image;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 
-class SearchController extends Controller
+class WebScraper
 {
-
-    /**
-     * The default Artist data to be returned from this controller.
-     *
-     * @return array<string, string>
-     */
-    public $defaultArtistData = ['id', 'name', 'thumbnail', 'url_remote'];
-
     /**
      * Fallback scrape option for the youtube music search page; in some cases there are no additional artists available
      *
      * @return RemoteWebDriver
      */
-    protected function scrapeArtist($driver)
+    public static function scrapeArtist($driver)
     {
         $response = [];
         $artistContainer = $driver->findElement(WebDriverBy::cssSelector('.main-card-content-container'));
@@ -41,10 +26,6 @@ class SearchController extends Controller
         // Resize image and save to file, provide path to data
         $imageUrl = ImageUrl::modifyGoogleImageUrl($artistThumbnail);
         $imageFileUrl = ImageUrl::save_img_url($imageUrl);
-
-        \Log::info('============================');
-        \Log::info($imageUrl);
-        \Log::info($imageFileUrl);
 
         $data = [
             'name' => $artistName,
@@ -62,7 +43,7 @@ class SearchController extends Controller
      *
      * @return RemoteWebDriver
      */
-    protected function scrapeArtists($driver)
+    public static function scrapeArtists($driver)
     {
         $response = [];
         // Click the artist button to force a "structure" of results
@@ -97,10 +78,6 @@ class SearchController extends Controller
                         $imageUrl = ImageUrl::modifyGoogleImageUrl($artistThumbnail);
                         $imageFileUrl = ImageUrl::save_img_url($imageUrl);
 
-                        \Log::info('============================');
-                        \Log::info($imageUrl);
-                        \Log::info($imageFileUrl);
-
                         // Create if we don't have it yet
                         $data = [
                             'name' => $artistName,
@@ -123,23 +100,4 @@ class SearchController extends Controller
 
         return $response;
     }
-
-    public function search_artist(string $artist)
-    {
-        $url = 'https://music.youtube.com/search?q=' . str_replace(' ', '+', $artist);
-        $driver = WebDriver::setUp();
-        $driver->get($url);
-
-        // Add handling for no artist button; Some artists searches don't have this option (Ex The Black Dahlia Murder)
-        try {
-            $response = $this->scrapeArtists($driver);
-        } catch (\Exception) {
-            \Log::warning('Could not get list of artists, attempting to get single artist card..');
-            $response = $this->scrapeArtist($driver);
-        } finally {
-            $driver->quit();
-        }
-        return response()->json($response);
-    }
-
 }

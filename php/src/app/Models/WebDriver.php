@@ -20,4 +20,5 @@ class WebDriver extends Model
         $driver->manage()->window()->maximize();
         return $driver;
     }
+
 }

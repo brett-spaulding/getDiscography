@@ -4,14 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mockery\Exception;
 
 class Artist extends Model
 {
     use HasFactory;
 
+    public function change_state(string $state)
+    {
+        $available_states = array("pending", "in_progress", "done");
+        if (!in_array($state, $available_states)){
+            throw new Exception('Invalid state');
+        }
+        $this->state = $state;
+        $this->save();
+    }
+
     public static function findByName($name)
     {
         return self::where('name', '=', $name)->get();
+    }
+
+    public static function findById($id)
+    {
+        return self::where('id', '=', $id)->get();
     }
 
     public static function addArtist(string $name, string $thumbnail, string $url_remote, string $image)

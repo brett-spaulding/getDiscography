@@ -20,7 +20,7 @@ function template_artist_result(element) {
 }
 
 function construct_artist_result_html(artist_list) {
-    let html = '<h3>Found Artist!</h3>';
+    let html = '<h3>Found Artist</h3>';
     let index = 0;
     if (artist_list.length > 1) {
         artist_list.forEach((element) => {
@@ -53,7 +53,7 @@ function artist_queue_toggle(element) {
     let artist_name = self.data('artist_name');
     self.prop('disabled', true)
     $.ajax({
-        url: `/api/artist/queue/${self.data('artist_id')}`,
+        url: `/api/queue/artist/${self.data('artist_id')}`,
         success: () => {
             proc_notification('success', 'Queued Download', `Artist ${artist_name} Queued for Download!`);
         },
@@ -65,57 +65,56 @@ function artist_queue_toggle(element) {
     })
 }
 
-$('#settings_btn').on('click', () => {
-    $('#modalSettings').modal('toggle');
-});
+function bind_action_buttons() {
+    $('#settings_btn').on('click', () => {
+        $('#modalSettings').modal('toggle');
+    });
 
-$('#catalog_btn').on('click', () => {
-    $('#modalCatalog').modal('toggle');
-});
+    $('#catalog_btn').on('click', () => {
+        $('#modalCatalog').modal('toggle');
+    });
 
-$('#queue_btn').on('click', () => {
-    appModal.modal('toggle');
-});
+    $('#queue_btn').on('click', () => {
+        appModal.modal('toggle');
+    });
 
-$('#download_btn').on('click', () => {
-    loader.fadeIn(300);
+    $('#download_btn').on('click', () => {
+        loader.fadeIn(300);
+        let artist = $('#search_bar').val();
 
-    let artist = $('#search_bar').val();
-    let icon = 'error';
-    let title = 'What the flip?!';
+        // Send request to server
+        setTimeout(() => {
+            if (artist) {
+                console.log('Sending search request...');
+                $.ajax({
+                    url: `/artist/${artist}`,
+                    success: (response) => {
+                        console.log('Receiving response...');
+                        console.log(response);
+                        console.log('===========');
+                        icon = 'success';
+                        let html = construct_artist_result_html(response);
+                        proc_notification(icon, 'Shazam!', html);
+                        $('#search_bar').val('');
+                        loader.fadeOut(700);
+                    },
+                    error: (response) => {
+                        console.log('Receiving response...');
+                        console.log(response);
+                        console.log('===========');
+                        proc_notification(icon, 'What the flip?!', response.statusText);
+                        loader.fadeOut(700);
+                    }
+                });
 
-    // Send request to server
-    setTimeout(() => {
-        if (artist) {
-            console.log('Sending search request...');
-            $.ajax({
-                url: `/artist/${artist}`,
-                success: (response) => {
-                    console.log('Receiving response...');
-                    console.log(response);
-                    console.log('===========');
-                    icon = 'success';
-                    let html = construct_artist_result_html(response);
-                    proc_notification(icon, title, html);
-                    $('#search_bar').val('');
-                    loader.fadeOut(700);
-                },
-                error: (response) => {
-                    console.log('Receiving response...');
-                    console.log(response);
-                    console.log('===========');
-                    proc_notification(icon, title, response.statusText);
-                    loader.fadeOut(700);
-                }
-            });
+            } else {
+                proc_notification(icon, 'Whoopsie!', 'You need to add an artist, c\'mon man!');
+                loader.fadeOut(700);
+            }
+        }, 10);
 
-        } else {
-            proc_notification(icon, title, 'You need to add an artist, c\'mon man!');
-            loader.fadeOut(700);
-        }
-    }, 10);
-
-});
+    });
+}
 
 document.addEventListener('alpine:init', () => {
     console.log('Alpine:init');
@@ -134,6 +133,9 @@ document.addEventListener('alpine:init', () => {
 });
 
 $(document).ready(function () {
+
+    bind_action_buttons();
+
     //Datatable for 'Catalog' menu
     let ArtistTable = $('#artistsCatalogDatatable').DataTable({
         ajax: '/api/artists',
@@ -163,8 +165,8 @@ $(document).ready(function () {
         ],
     });
     // Polling for table update
-    const getArtistTableInterval = setInterval(function() {
-        table.ajax.reload();
+    const getArtistTableInterval = setInterval(function () {
+        ArtistTable.ajax.reload();
     }, 5000);
 });
 
