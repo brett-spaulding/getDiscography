@@ -30,8 +30,8 @@
                     <a id="download_btn" class="btn btn-outline-secondary action-item-home btn-modal"
                        href="#download"
                        data-action="download">
-                        <i class="las la-download"></i>
-                        Download
+{{--                        <i class="las la-download"></i>--}}
+                        Search
                     </a>
                 </div>
 

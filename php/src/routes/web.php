@@ -11,3 +11,4 @@ Route::get('/', function () {
 Route::get('/artist/{artist}', [SearchController::class, 'search_artist'])->name('api.search.artist');
 
 Route::get('api/artists/', [ApiController::class, 'get_artists'])->name('api.artist');
+Route::get('api/artists/queue/{id}', [ApiController::class, 'queue_artist'])->name('api.artist.queue');

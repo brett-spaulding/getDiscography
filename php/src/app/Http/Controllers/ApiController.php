@@ -22,10 +22,13 @@ class ApiController extends Controller
                 'thumbnail' => $artist->thumbnail,
             ];
         }
-
-        \Log::info('=======================');
         $response = json_encode( array('data' => $data));
-        \Log::info($response);
         return $response;
     }
+
+    public function queue_artist($id, ArtistQueue $artistQueue)
+    {
+        $artistQueue->enqueue($id);
+    }
+
 }

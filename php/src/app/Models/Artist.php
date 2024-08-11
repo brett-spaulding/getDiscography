@@ -14,12 +14,13 @@ class Artist extends Model
         return self::where('name', '=', $name)->get();
     }
 
-    public static function addArtist(string $name, string $thumbnail, string $url_remote)
+    public static function addArtist(string $name, string $thumbnail, string $url_remote, string $image)
     {
         $artist = new Artist();
         $artist->name = $name;
         $artist->url_remote = $url_remote;
         $artist->thumbnail = $thumbnail;
+        $artist->image = $image;
         $artist->save();
         return $artist;
     }
@@ -28,7 +29,7 @@ class Artist extends Model
     {
         $artist = self::findByName($name)->first();
         if (!$artist && $data) {
-            $artist = self::addArtist($data['name'], $data['thumbnail'], $data['url_remote']);
+            $artist = self::addArtist($data['name'], $data['thumbnail'], $data['url_remote'], $data['image']);
         }
         return $artist;
     }

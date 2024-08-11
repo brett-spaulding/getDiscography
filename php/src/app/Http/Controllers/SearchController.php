@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Artist;
 use App\Models\WebDriver;
+use App\Utils\ImageUrl;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Illuminate\Http\Request;
-
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\WebDriverBy;
+use Illuminate\Support\Facades\App;
+use Nette\Utils\Image;
 
 class SearchController extends Controller
 {
@@ -36,10 +38,19 @@ class SearchController extends Controller
         $artistHref = $artistLink[0]->getAttribute('href');
         $artistName = $artistLink[0]->getAttribute('title');
 
+        // Resize image and save to file, provide path to data
+        $imageUrl = ImageUrl::modifyGoogleImageUrl($artistThumbnail);
+        $imageFileUrl = ImageUrl::save_img_url($imageUrl);
+
+        \Log::info('============================');
+        \Log::info($imageUrl);
+        \Log::info($imageFileUrl);
+
         $data = [
             'name' => $artistName,
             'thumbnail' => $artistThumbnail,
             'url_remote' => $artistHref,
+            'image' => $imageFileUrl,
         ];
         $artist_id = Artist::findOrCreateByName($artistName, $data);
         return $artist_id->read();
@@ -81,11 +92,21 @@ class SearchController extends Controller
                         $artistLink = $artist->findElements(WebDriverBy::cssSelector('a'));
                         $artistHref = $artistLink[0]->getAttribute('href');
                         $artistName = $artistLink[0]->getAttribute('aria-label');
+
+                        // Resize image and save to file, provide path to data
+                        $imageUrl = ImageUrl::modifyGoogleImageUrl($artistThumbnail);
+                        $imageFileUrl = ImageUrl::save_img_url($imageUrl);
+
+                        \Log::info('============================');
+                        \Log::info($imageUrl);
+                        \Log::info($imageFileUrl);
+
                         // Create if we don't have it yet
                         $data = [
                             'name' => $artistName,
                             'thumbnail' => $artistThumbnail,
                             'url_remote' => $artistHref,
+                            'image' => $imageFileUrl,
                         ];
                         $artist_id = Artist::findOrCreateByName($artistName, $data);
                         $response[] = $artist_id->read();
