@@ -9,12 +9,19 @@ class AlbumQueue extends Model
 {
     use HasFactory;
 
-    public function enqueue()
+    public function enqueue(int $id): bool
     {
-        // Add albums to queue for download
+        $result = false;
+        $album_id = Album::findById($id)->first();
+        if ($album_id->count() > 0 && $album_id->state === 'pending') {
+            $this->album_id = $album_id->id;
+            $this->save();
+            $result = true;
+        }
+        return $result;
     }
 
-    public function process_queue()
+    public function process_album()
     {
         // Either python pings to process the queue or laravel will send the data to python for processing
     }

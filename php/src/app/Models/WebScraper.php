@@ -25,7 +25,7 @@ class WebScraper
 
         // Resize image and save to file, provide path to data
         $imageUrl = ImageUrl::modifyGoogleImageUrl($artistThumbnail);
-        $imageFileUrl = ImageUrl::save_img_url($imageUrl);
+        $imageFileUrl = ImageUrl::save_img_url($imageUrl, 'artist');
 
         $data = [
             'name' => $artistName,
@@ -76,7 +76,7 @@ class WebScraper
 
                         // Resize image and save to file, provide path to data
                         $imageUrl = ImageUrl::modifyGoogleImageUrl($artistThumbnail);
-                        $imageFileUrl = ImageUrl::save_img_url($imageUrl);
+                        $imageFileUrl = ImageUrl::save_img_url($imageUrl, 'artist');
 
                         // Create if we don't have it yet
                         $data = [
@@ -98,6 +98,52 @@ class WebScraper
             }
         }
 
+        return $response;
+    }
+
+    /**
+     * Scrape the album data from given artist page, create new album records and queue those records for download
+     *
+     * @return RemoteWebDriver
+     */
+    public static function scrapeAlbums($driver, $artist_id): array
+    {
+        $url = 'https://music.youtube.com/' . $artist_id->url_remote;
+        $driver->get($url);
+        $response = [];
+        $albumBtn = $driver->findElement(WebDriverBy::xpath('//a[text()="Albums"]'));
+        if ($albumBtn) {
+            $albumBtn->click();
+            sleep(3);
+            $itemsContainer = $driver->findElements(WebDriverBy::cssSelector('#items'));
+            foreach ($itemsContainer as $item) {
+                $albumContainers = $item->findElements(WebDriverBy::cssSelector('.ytmusic-grid-renderer'));
+                if ($albumContainers) {
+                    foreach ($albumContainers as $albumContainer) {
+                        $albumLink = $albumContainer->findElement(WebDriverBy::cssSelector('a'));
+                        $albumHref = $albumLink->getAttribute('href');
+                        $albumTitle = $albumLink->getAttribute('title');
+                        $albumThumbnail = $albumLink->findElement(WebDriverBy::cssSelector('img'))->getAttribute('src');
+
+                        // Resize image and save to file, provide path to data
+                        $imageUrl = ImageUrl::modifyGoogleImageUrl($albumThumbnail);
+                        $imageFileUrl = ImageUrl::save_img_url($imageUrl, 'album');
+
+                        $data = [
+                            'name' => $albumTitle,
+                            'artist_id' => $artist_id->id,
+                            'thumbnail' => $albumThumbnail,
+                            'url_remote' => $albumHref,
+                            'image' => $imageFileUrl,
+                        ];
+                        $album_id = Album::findOrCreateByName($albumTitle, $data);
+
+                        $album_queue = new AlbumQueue();
+                        $album_queue_id = $album_queue->enqueue($album_id->id);
+                    }
+                }
+            }
+        }
         return $response;
     }
 }

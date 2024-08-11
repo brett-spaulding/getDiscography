@@ -29,9 +29,9 @@ class ArtistQueue extends Model
     {
         // Scrape the artist page for image, and album data (image, url, name)
         $driver = WebDriver::setUp();
-        $artist_id = Artist::where('id', $this->artist_id)->get();
+        $artist_id = Artist::where('id', $this->artist_id)->get()->first();
         if ($artist_id->count() > 0) {
-
+            $response = WebScraper::scrapeAlbums($driver, $artist_id);
         } else {
             throw new Exception('The Artist ID provided to the queue does not exist.');
         }
