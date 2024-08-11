@@ -57,6 +57,7 @@ $('#download_btn').on('click', () => {
     let icon = 'error';
     let title = 'What the flip?!';
 
+    // Send request to server
     setTimeout(() => {
         if (artist) {
             console.log('Sending search request...');
@@ -85,7 +86,7 @@ $('#download_btn').on('click', () => {
             proc_notification(icon, title, 'You need to add an artist, c\'mon man!');
             loader.fadeOut(700);
         }
-    }, 100);
+    }, 10);
 
 });
 
@@ -96,7 +97,7 @@ document.addEventListener('alpine:init', () => {
             // TODO: Poll for artists and queue
             this.Artists = [];
             this.Queue = [];
-            this.ArtistResults = []
+            this.ArtistResults = [];
         },
 
         Artists: [],          // Rendered in the 'Artists' modal
@@ -108,3 +109,28 @@ document.addEventListener('alpine:init', () => {
     $("#loader-wrapper").fadeOut(900);
 
 });
+
+$(document).ready(function () {
+    let ArtistTable = $('#artistsCatalogDatatable').DataTable({
+        ajax: '/api/artists',
+        type: 'get',
+        dataType: 'json',
+        columns: [
+            {data: 'thumbnail', render: (data) => { return `<img src="${data}" height=48 width="48" style="border-radius: 6px;"/>`}},
+            {data: 'name'},
+            {title: 'Channel', data: 'url_remote', render: (data) => {return `<a href="https://music.youtube.com/${data}" class="btn btn-danger" target="_blank"><i class="lab la-youtube"></i></a>`}},
+            {data: 'state'},
+            {data: 'id', render: (data, row) => {
+                let stateDiable = row.state === 'in_progress' ? 'disabled': '';
+                let stateClass = row.state === 'in_progress' ? '': 'btn-primary';
+                return `<button class="btn ${stateClass}" hx-get="/api/artist/toggle" ${stateDiable}><i class="las la-cloud-download-alt"></i> Download</button>`}
+            }
+        ],
+    });
+
+    // const getArtistTableInterval = setInterval(function() {
+    //     table.ajax.reload();
+    // }, 5000);
+
+});
+
