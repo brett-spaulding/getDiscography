@@ -45,7 +45,7 @@ class ImageUrl
         // Check if the file already exists
         $imagePath = $imagesDir . '/' . $filename . '.jpg';
         if (file_exists($imagePath)) {
-            return ''; // File already exists, don't save again
+            return $imagePath; // File already exists, don't save again
         }
 
         // Download the image from the URL using curl

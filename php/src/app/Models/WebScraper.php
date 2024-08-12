@@ -106,45 +106,51 @@ class WebScraper
      *
      * @return RemoteWebDriver
      */
-    public static function scrapeAlbums($driver, $artist_id): array
+    public static function scrapeAlbums($driver, $artist_id)
     {
         $url = 'https://music.youtube.com/' . $artist_id->url_remote;
         $driver->get($url);
         $response = 0;
-        $albumBtn = $driver->findElement(WebDriverBy::xpath('//a[text()="Albums"]'));
-        if ($albumBtn) {
-            $albumBtn->click();
-            sleep(3);
-            $itemsContainer = $driver->findElements(WebDriverBy::cssSelector('#items'));
-            foreach ($itemsContainer as $item) {
-                $albumContainers = $item->findElements(WebDriverBy::cssSelector('.ytmusic-grid-renderer'));
-                if ($albumContainers) {
-                    foreach ($albumContainers as $albumContainer) {
-                        $response += 1;
-                        $albumLink = $albumContainer->findElement(WebDriverBy::cssSelector('a'));
-                        $albumHref = $albumLink->getAttribute('href');
-                        $albumTitle = $albumLink->getAttribute('title');
-                        $albumThumbnail = $albumLink->findElement(WebDriverBy::cssSelector('img'))->getAttribute('src');
+        try {
+            $albumBtn = $driver->findElement(WebDriverBy::xpath('//a[text()="Albums"]'));
+            if ($albumBtn) {
+                $albumBtn->click();
+                sleep(3);
+                $itemsContainer = $driver->findElements(WebDriverBy::cssSelector('#items'));
+                foreach ($itemsContainer as $item) {
+                    $albumContainers = $item->findElements(WebDriverBy::cssSelector('.ytmusic-grid-renderer'));
+                    if ($albumContainers) {
+                        foreach ($albumContainers as $albumContainer) {
+                            $response += 1;
+                            $albumLink = $albumContainer->findElement(WebDriverBy::cssSelector('a'));
+                            $albumHref = $albumLink->getAttribute('href');
+                            $albumTitle = $albumLink->getAttribute('title');
+                            $albumThumbnail = $albumLink->findElement(WebDriverBy::cssSelector('img'))->getAttribute('src');
 
-                        // Resize image and save to file, provide path to data
-                        $imageUrl = ImageUrl::modifyGoogleImageUrl($albumThumbnail);
-                        $imageFileUrl = ImageUrl::save_img_url($imageUrl, 'album');
+                            // Resize image and save to file, provide path to data
+                            $imageUrl = ImageUrl::modifyGoogleImageUrl($albumThumbnail);
+                            $imageFileUrl = ImageUrl::save_img_url($imageUrl, 'album');
 
-                        $data = [
-                            'name' => $albumTitle,
-                            'artist_id' => $artist_id->id,
-                            'thumbnail' => $albumThumbnail,
-                            'url_remote' => $albumHref,
-                            'image' => $imageFileUrl,
-                        ];
-                        $album_id = Album::findOrCreateByName($artist_id, $albumTitle, $data);
+                            $data = [
+                                'name' => $albumTitle,
+                                'artist_id' => $artist_id->id,
+                                'thumbnail' => $albumThumbnail,
+                                'url_remote' => $albumHref,
+                                'image' => $imageFileUrl,
+                            ];
+                            $album_id = Album::findOrCreateByName($artist_id, $albumTitle, $data);
 
-                        $album_queue = new AlbumQueue();
-                        $album_queue->enqueue($album_id);
+                            $album_queue = new AlbumQueue();
+                            $album_queue->enqueue($album_id);
+                        }
                     }
                 }
             }
+        } catch (\Exception $e) {
+            \Log::warning('Failed to scrape albums: ---------');
+            \Log::warning($e->getMessage());
         }
+
         return $response;
     }
 }

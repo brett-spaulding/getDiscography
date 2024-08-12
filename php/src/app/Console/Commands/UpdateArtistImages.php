@@ -33,7 +33,7 @@ class UpdateArtistImages extends Command
         $bar->start();
         foreach ($artists as $artist) {
             $image_url = ImageUrl::modifyGoogleImageUrl($artist->thumbnail);
-            $image_file = ImageUrl::save_img_url($image_url);
+            $image_file = ImageUrl::save_img_url($image_url, 'artist');
             $artist->image = $image_file;
             $artist->save();
             $bar->advance();

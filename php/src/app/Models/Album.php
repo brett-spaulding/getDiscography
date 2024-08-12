@@ -45,7 +45,7 @@ class Album extends Model
     public static function findOrCreateByName($artist_id, string $name, array $data = [])
     {
         $album = self::findByArtistTitle($artist_id, $name);
-        if ($album->exists() && $data) {
+        if (is_null($album) && $data) {
             $album = self::addAlbum($data['name'], $data['thumbnail'], $data['url_remote'], $data['image'], $data['artist_id']);
         }
         return $album;

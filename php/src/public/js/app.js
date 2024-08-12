@@ -1,6 +1,7 @@
 console.log('Version 1:20:2');
 const appModal = $('#modalDownloadQueue');
 const loader = $("#loader-wrapper");
+let ArtistTable = {}; // Initialized for ajax reload
 
 function template_artist_result(element) {
     return `
@@ -48,14 +49,13 @@ function proc_notification(icon, title, html) {
 
 function artist_queue_toggle(element) {
     let self = $(element);
-    console.log(self);
-    console.log(self.data('artist_id'));
     let artist_name = self.data('artist_name');
     self.prop('disabled', true)
     $.ajax({
         url: `/api/queue/artist/${self.data('artist_id')}`,
         success: () => {
             proc_notification('success', 'Queued Download', `Artist ${artist_name} Queued for Download!`);
+            ArtistTable.ajax.reload();
         },
         error: (response) => {
             console.log(response);
@@ -95,6 +95,7 @@ function bind_action_buttons() {
                         icon = 'success';
                         let html = construct_artist_result_html(response);
                         proc_notification(icon, 'Shazam!', html);
+                        ArtistTable.ajax.reload();
                         $('#search_bar').val('');
                         loader.fadeOut(700);
                     },
@@ -133,11 +134,9 @@ document.addEventListener('alpine:init', () => {
 });
 
 $(document).ready(function () {
-
     bind_action_buttons();
-
     //Datatable for 'Catalog' menu
-    let ArtistTable = $('#artistsCatalogDatatable').DataTable({
+    ArtistTable = $('#artistsCatalogDatatable').DataTable({
         ajax: '/api/artists',
         type: 'get',
         dataType: 'json',
@@ -164,9 +163,4 @@ $(document).ready(function () {
             }
         ],
     });
-    // Polling for table update
-    const getArtistTableInterval = setInterval(function () {
-        ArtistTable.ajax.reload();
-    }, 5000);
 });
-
