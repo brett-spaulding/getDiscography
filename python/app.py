@@ -1,6 +1,5 @@
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
-from database import Model
 from flask import Flask, render_template
 from redis import Redis
 from utils.download import download_album
@@ -9,7 +8,6 @@ from utils.processor import process_download
 
 app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
-Album = Model('album')
 
 
 def process_downloads():
@@ -31,18 +29,10 @@ cron.add_job(process_downloads, 'interval', minutes=1)
 cron.start()
 
 
-@app.route('/')
-def index():
-    # redis.incr('hits')
-    # counter = 'This Compose/Flask demo has been viewed %s time(s).' % redis.get('hits')
-    
-    return render_template('base.html')
-
-
-@app.route('/api/v1/get/artist/<path:path>')
+@app.route('/api/v1/process/album')
 def get_artist(path):
     """
-    Process for the requested Artist
+    Process for the requested Album
     :param path: The Artist to get files for
     :return: a status
     """
