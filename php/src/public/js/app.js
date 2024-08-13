@@ -64,7 +64,7 @@ function artist_queue_toggle(element) {
         url: `/api/queue/artist/${self.data('artist_id')}`,
         success: () => {
             proc_notification('success', 'Queued Download', `Artist ${artist_name} Queued for Download!`);
-            ArtistTable.ajax.reload();
+            // ArtistTable.ajax.reload();
         },
         error: (response) => {
             console.log(response);

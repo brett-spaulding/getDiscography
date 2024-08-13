@@ -28,10 +28,10 @@ class ProcessArtistQueue extends Command
     public function handle()
     {
         // This queue will prompt the scraping of all artist albums, mark done when complete
-        $artists = ArtistQueue::where('state', 'pending')->get();
-        $bar = new ProgressBar($this->output, count($artists));
+        $artist_queue = ArtistQueue::where('state', 'pending')->get();
+        $bar = new ProgressBar($this->output, count($artist_queue));
         $bar->start();
-        foreach ($artists as $artist) {
+        foreach ($artist_queue as $artist) {
             $artist->state = 'in_progress';
             $artist->save();
             $artist->process_artist();

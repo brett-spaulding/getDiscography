@@ -9,16 +9,22 @@ class AlbumQueue extends Model
 {
     use HasFactory;
 
-    public function enqueue($album_id): bool
+    public function enqueue($album): bool
     {
         $result = false;
-        $album_queued = AlbumQueue::where('album_id', $album_id->id)->first();
-        if (is_null($album_queued) && $album_id->state === 'pending') {
-            $this->album_id = $album_id->id;
+        $album_queued = AlbumQueue::where('album_id', $album->id)->first();
+        if (is_null($album_queued) && $album->state === 'pending') {
+            $this->album_id = $album->id;
             $this->save();
             $result = true;
         }
         return $result;
+    }
+
+    public static function addQueue($album_id): bool
+    {
+        $queue = new AlbumQueue();
+        $queue->enqueue($album_id);
     }
 
     public function album()

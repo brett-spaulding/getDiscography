@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Utils\ImageUrl;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverAction;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 
 class WebScraper
@@ -120,8 +121,7 @@ class WebScraper
             'image' => $imageFileUrl,
         ];
         $album_id = Album::findOrCreateByName($artist, $albumTitle, $data);
-        $album_queue = new AlbumQueue();
-        $album_queue->enqueue($album_id);
+        AlbumQueue::addQueue($album_id);
     }
 
     /**
@@ -153,13 +153,27 @@ class WebScraper
                 }
             } else {
                 \Log::info('Could not locate Albums button');
-
                 $ytRows = $driver->findElements(WebDriverBy::cssSelector('ytmusic-carousel-shelf-renderer'));
                 foreach ($ytRows as $ytRow) {
                     $contentGroup = $ytRow->findElements(WebDriverBy::cssSelector('#content-group'));
                     foreach ($contentGroup as $group) {
                         $groupName = $group->getText();
                         if ($groupName == 'Albums') {
+
+                            // Sometimes we don't have the option to click the albums button to filter
+                            // Yet, the albums are in a carousel and the images won't load unless they are in view
+                            $caroselNextButton = $driver->findElements(WebDriverBy::cssSelector('#next-items-button'));
+                            if ($caroselNextButton) {
+                                // Youtube is smart enough to block this without an action
+                                for ($i = 0; $i <= 3; $i++) {
+                                    if ($caroselNextButton[0]->isEnabled()) {
+                                        $action = $driver->action();
+                                        $action->moveToElement($caroselNextButton[0])->click()->perform();
+                                        sleep(1);
+                                    }
+                                }
+                            }
+
                             $itemsContainer = $ytRow->findElements(WebDriverBy::cssSelector('#items'));
                             foreach ($itemsContainer as $item) {
                                 $albumContainers = $item->findElements(WebDriverBy::cssSelector('ytmusic-two-row-item-renderer'));

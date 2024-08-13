@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Artisan;
+use App\Jobs\RunArtistQueue;
 use App\Models\AlbumQueue;
 use App\Models\Artist;
 use App\Models\WebDriver;
@@ -38,14 +38,16 @@ class ApiController extends Controller
         foreach ($album_queue as $queue) {
             $album = $queue->album;
             $artist = $album->artist;
-            $response[] = [
-                'name' => $album->name,
-                'artist_id' => $artist->toArray(),
-                'url_remote' => $album->url_remote,
-                'thumbnail' => $album->thumbnail,
-                'image' => $album->image,
-                'state' => $queue->state,
-            ];
+            if ($album && $artist) {
+                $response[] = [
+                    'name' => $album->name,
+                    'artist_id' => $artist->toArray(),
+                    'url_remote' => $album->url_remote,
+                    'thumbnail' => $album->thumbnail,
+                    'image' => $album->image,
+                    'state' => $queue->state,
+                ];
+            }
         }
         return json_encode($response);
     }
@@ -59,7 +61,7 @@ class ApiController extends Controller
     {
         \Log::info('===========================');
         \Log::info('Queue running for Artists..');
-        Artisan::queue('app:process-artist-queue');
+        ArtistQueue::run_queue();
     }
 
     public function search_artist(string $artist)

@@ -51,5 +51,16 @@ class ArtistQueue extends Model
         }
     }
 
-
+    public static function run_queue()
+    {
+        // This queue will prompt the scraping of all artist albums, mark done when complete
+        $artist_queue = ArtistQueue::where('state', 'pending')->get();
+        foreach ($artist_queue as $queue) {
+            $queue->state = 'in_progress';
+            $queue->save();
+            $queue->process_artist();
+            $queue->state = 'done';
+            $queue->save();
+        }
+    }
 }

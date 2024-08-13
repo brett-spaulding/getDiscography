@@ -13,7 +13,7 @@
                 <div id="modal_content">
 
                     <div class="card">
-                        <table id="artistsCatalogDatatable">
+                        <table id="artistsCatalogDatatable" class="stripe">
                             <thead>
                             <tr>
                                 <th></th>
