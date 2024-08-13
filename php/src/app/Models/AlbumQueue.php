@@ -21,8 +21,9 @@ class AlbumQueue extends Model
         return $result;
     }
 
-    public function process_album()
+    public function album()
     {
-        // Either python pings to process the queue or laravel will send the data to python for processing
+        return $this->belongsTo(Album::class);
     }
+
 }

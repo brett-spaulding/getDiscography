@@ -1,37 +1,34 @@
+import shutil
 import os
-from database import Model
-from const import *
-from .yt_dlp_logger import *
-import wget
 import yt_dlp
+from .yt_dlp_logger import YtDlpLogger, yt_dlp_log_hook
 
-Album = Model('album')
+MEDIA_FOLDER = '/var/www/html/storage/app/music'
 
 
-def download_album(album):
+def download_album(album, artist):
     """
-    Take a list of albums and process the downloads
+    Take an artist and album dict and use yt-dlp to download the album to the local filestore.
     :param album: Dict of album data
-    :return:
+    :return: dict of save data
     """
-    artist = album.get('artist')
-    artist_path = MEDIA_FOLDER + '/%s' % artist
+    response = {
+        'artist': {},
+        'album': {},
+    }
+    artist_path = MEDIA_FOLDER + '/%s' % artist.get('name')
     if not os.path.exists(artist_path):
+        # Make artist folder and copy the artist image, add
         os.mkdir(artist_path)
+        shutil.copy2(artist.get('image'), artist_path + '/artist.jpg')
+        response['artist'] = {'url_local': artist_path}
 
-    print('---')
     # Create album folder
-    album_title = album.get('album')
+    album_title = album.get('name')
     album_path = artist_path + '/%s' % album_title
     if not os.path.exists(album_path):
         os.mkdir(album_path)
-
-    # Save album cover
-    if album.get('cover'):
-        try:
-            download_file(album.get('cover'), album_path)
-        except Exception as e:
-            print("Warning: %s" % e)
+        shutil.copy2(album.get('image'), album_path + '/album.jpg')
 
     # Download album
     ydl_opts = {
@@ -45,18 +42,13 @@ def download_album(album):
             'preferredcodec': 'mp3',
         }]
     }
+    download_url = 'https://music.youtube.com/' + album.get('url_remote')
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
-            error_code = ydl.download('https://youtube.com' + album.get('link'))
+            ydl.download(download_url)
         except Exception as e:
-            print('!!!!!!!!!')
+            print('yt-dlp download failed: =========')
             print(e)
-        finally:
-            Album.unlink(album['id'])
-
-
-def download_file(url, output):
-    filename = wget.download(url, out=output)
-    os.rename(filename, output + '/album.jpg')
-    return filename
+    response['album'] = {'url_local': album_path}
+    return response

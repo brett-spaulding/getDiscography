@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Mockery\Exception;
 
 class Album extends Model
@@ -13,7 +14,7 @@ class Album extends Model
     public function change_state(string $state)
     {
         $available_states = array("pending", "in_progress", "done");
-        if (!in_array($state, $available_states)){
+        if (!in_array($state, $available_states)) {
             throw new Exception('Invalid state');
         }
         $this->state = $state;
@@ -49,6 +50,11 @@ class Album extends Model
             $album = self::addAlbum($data['name'], $data['thumbnail'], $data['url_remote'], $data['image'], $data['artist_id']);
         }
         return $album;
+    }
+
+    public function artist(): BelongsTo
+    {
+        return $this->belongsTo(Artist::class);
     }
 
 }

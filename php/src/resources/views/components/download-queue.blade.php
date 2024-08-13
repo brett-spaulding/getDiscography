@@ -11,13 +11,13 @@
                             <div class="dl_queue_img">
 
                                 <!-- Downloading Spinner -->
-                                <template x-if="album.state === 'progress'">
+                                <template x-if="album.state === 'in_progress'">
                                     <div class="icn-downloading">
                                         <i class="la la-6x la-compact-disc icn-spinner text-white"></i>
                                     </div>
                                 </template>
                                 <!-- Album Art -->
-                                <img :src="album.image" class="img-fluid rounded-start"
+                                <img :src="album.thumbnail" class="img-fluid rounded-start"
                                      :alt="album.name" style="width: 100%; height: 100%; min-height: 180px;">
                             </div>
 
@@ -25,13 +25,13 @@
                         <div class="col-md-9 vinyl-card">
                             <div class="card-body">
                                 <a :href="album.url_remote" target="_blank">
-                                    <h3 class="card-title">@{{ album.name }}</h3>
+                                    <h3 class="card-title" x-text="album.name"></h3>
                                 </a>
                                 <h5 class="card-text"
                                     style="font-weight: bold; font-family: serif;"><span x-text="album.artist_id.name"/>
                                 </h5>
 
-                                <template x-if="album.state === 'progress'">
+                                <template x-if="album.state === 'in_progress'">
                                     <p>Downloading...</p>
                                 </template>
 

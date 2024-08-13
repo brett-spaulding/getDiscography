@@ -2,8 +2,8 @@ FROM debian:bullseye-slim
 RUN apt update && apt upgrade -y
 RUN apt install ffmpeg -y
 RUN apt install curl python3-pip -y
-ADD . /code
-WORKDIR /code
+ADD . /python
+WORKDIR /python
 
 RUN pip3 install -r requirements.txt
 ENV FLASK_APP=app

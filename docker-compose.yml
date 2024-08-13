@@ -34,7 +34,6 @@ services:
             - "9000:9000"
         volumes:
             - ./php/src:/var/www/html:delegated
-            - ./shared:/var/
         networks:
             - laravel
 
@@ -49,9 +48,8 @@ services:
         ports:
             - "5000:5000"
         volumes:
-            - ./python:/code:Z
+            - ./python:/python:Z
             - ./php/src:/var/www/html:delegated
-            - ./shared:/var/
         depends_on:
             - redis
         networks:
@@ -143,36 +141,36 @@ services:
             - SE_EVENT_BUS_HOST=selenium-hub
             - SE_EVENT_BUS_PUBLISH_PORT=4442
             - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-            - SE_NODE_MAX_SESSIONS=5
-            - SE_NODE_MAX_SESSION=5
+            - SE_NODE_MAX_SESSIONS=15
+            - SE_NODE_MAX_SESSION=15
 
-    edge:
-        image: selenium/node-edge:nightly
-        shm_size: 8gb
-        networks:
-            - laravel
-        depends_on:
-            - selenium-hub
-        environment:
-            - SE_EVENT_BUS_HOST=selenium-hub
-            - SE_EVENT_BUS_PUBLISH_PORT=4442
-            - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-            - SE_NODE_MAX_SESSIONS=5
-            - SE_NODE_MAX_SESSION=5
-
-    firefox:
-        image: selenium/node-firefox:nightly
-        shm_size: 8gb
-        networks:
-            - laravel
-        depends_on:
-            - selenium-hub
-        environment:
-            - SE_EVENT_BUS_HOST=selenium-hub
-            - SE_EVENT_BUS_PUBLISH_PORT=4442
-            - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-            - SE_NODE_MAX_SESSIONS=5
-            - SE_NODE_MAX_SESSION=5
+#    edge:
+#        image: selenium/node-edge:nightly
+#        shm_size: 8gb
+#        networks:
+#            - laravel
+#        depends_on:
+#            - selenium-hub
+#        environment:
+#            - SE_EVENT_BUS_HOST=selenium-hub
+#            - SE_EVENT_BUS_PUBLISH_PORT=4442
+#            - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+#            - SE_NODE_MAX_SESSIONS=5
+#            - SE_NODE_MAX_SESSION=5
+#
+#    firefox:
+#        image: selenium/node-firefox:nightly
+#        shm_size: 8gb
+#        networks:
+#            - laravel
+#        depends_on:
+#            - selenium-hub
+#        environment:
+#            - SE_EVENT_BUS_HOST=selenium-hub
+#            - SE_EVENT_BUS_PUBLISH_PORT=4442
+#            - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+#            - SE_NODE_MAX_SESSIONS=5
+#            - SE_NODE_MAX_SESSION=5
 
     selenium-hub:
         image: selenium/hub:latest

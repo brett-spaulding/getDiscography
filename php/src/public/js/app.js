@@ -3,6 +3,15 @@ const appModal = $('#modalDownloadQueue');
 const loader = $("#loader-wrapper");
 let ArtistTable = {}; // Initialized for ajax reload
 
+function requestQueue() {
+    $.ajax({
+        url: '/api/queue/albums',
+        success: (response) => {
+            Alpine.store('app').Queue = JSON.parse(response);
+        }
+    })
+}
+
 function template_artist_result(element) {
     return `
         <div class="card w-100 p-2 mb-2">
@@ -120,15 +129,10 @@ function bind_action_buttons() {
 document.addEventListener('alpine:init', () => {
     console.log('Alpine:init');
     Alpine.store('app', {
-        init() {
-            // TODO: Poll for artists and queue
-            this.Queue = [];
-        },
-
         Queue: [],          // Rendered in the 'Queue' modal
-
     });
-
+    requestQueue();
+    setInterval(requestQueue, 5000);
     $("#loader-wrapper").fadeOut(900);
 
 });

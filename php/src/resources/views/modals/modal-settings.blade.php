@@ -10,7 +10,7 @@
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>No settings yet, check back later. A configurable output path is on the todo list!</p>
+                <p>No settings yet, check back later.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>

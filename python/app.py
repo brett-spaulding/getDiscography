@@ -1,57 +1,38 @@
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Flask, render_template
+from flask import Flask
 from redis import Redis
 from utils.download import download_album
-from utils.processor import process_download
+import requests
+
+import logging
+_logger = logging.getLogger(__name__)
 
 
 app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
 
 
-def process_downloads():
-    print('Processing Downloads..')
-    pending_downloads = Album.search([('downloaded', '=', False), ('downloading', '=', False)])
-    if pending_downloads:
-        ready_album = pending_downloads[:1]
-        if ready_album:
-            album = ready_album[0]
-            print('...................')
-            print('Downloading Album..')
-            print(album)
-            Album.write(album['id'], {'downloading': True})
-            download_album(album)
+# def process_artist_queue():
+#     requests.get('http://nginx/api/queue/artists/run')
+#     return
 
+def process_album_queue():
+    print('Running Album Queue Process..')
+    print('---')
+    response = requests.get('http://nginx/api/album/queue')
+    data = response.json()
+    artist = data.get('artist')
+    album = data.get('album')
+    queue = data.get('queue')
+    if artist and album and queue:
+        result = download_album(album, artist)
+        requests.post('http://nginx/api/album/queue/update/%s' % queue.get('id'), json=result)
+    return
 
-cron = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 2}, daemon=True)
-cron.add_job(process_downloads, 'interval', minutes=1)
+cron = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 1}, daemon=True)
+cron.add_job(process_album_queue, 'interval', minutes=1)
 cron.start()
-
-
-@app.route('/api/v1/process/album')
-def get_artist(path):
-    """
-    Process for the requested Album
-    :param path: The Artist to get files for
-    :return: a status
-    """
-    if path:
-        res = process_download(path)
-    else:
-        res = {'status': 501, 'message': 'Could not process download..'}
-
-    return res
-
-
-@app.route('/api/v1/get/queue')
-def get_queue():
-    album_ids = Album.search([('downloaded', '=', False)])
-    data = {}
-    if album_ids:
-        data.update({'album_ids': album_ids})
-    return render_template('download_queue.html', **data)
-
 
 if __name__ == "__main__":
     print('Starting App...')
