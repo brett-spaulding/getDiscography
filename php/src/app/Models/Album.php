@@ -34,7 +34,7 @@ class Album extends Model
     public static function addAlbum(string $name, string $thumbnail, string $url_remote, string $image, $artist_id)
     {
         $album = new Album();
-        $album->name = $name;
+        $album->name = str_replace('/', '-', $name);
         $album->artist_id = $artist_id;
         $album->url_remote = $url_remote;
         $album->thumbnail = $thumbnail;

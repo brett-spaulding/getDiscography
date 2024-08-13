@@ -33,7 +33,7 @@ class Artist extends Model
     public static function addArtist(string $name, string $thumbnail, string $url_remote, string $image)
     {
         $artist = new Artist();
-        $artist->name = $name;
+        $artist->name = str_replace('/', '-', $name);
         $artist->url_remote = $url_remote;
         $artist->thumbnail = $thumbnail;
         $artist->image = $image;
