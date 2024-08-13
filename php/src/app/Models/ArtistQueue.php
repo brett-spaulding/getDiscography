@@ -24,12 +24,17 @@ class ArtistQueue extends Model
         return $result;
     }
 
+    public function artist()
+    {
+        return $this->belongsTo(Artist::class);
+    }
+
 
     public function process_artist()
     {
         // Scrape the artist page for image, and album data (image, url, name)
         $driver = WebDriver::setUp();
-        $artist_id = Artist::where('id', $this->artist_id)->get()->first();
+        $artist_id = $this->artist;
         if ($artist_id->count() > 0) {
             try {
                 $album_count = WebScraper::scrapeAlbums($driver, $artist_id);
@@ -38,6 +43,7 @@ class ArtistQueue extends Model
             } catch (Exception $e) {
                 \Log::warning('Failed to scrape albums: ' . $e->getMessage());
             } finally {
+                $artist_id->change_state('done');
                 $driver->quit();
             }
         } else {

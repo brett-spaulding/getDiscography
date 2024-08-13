@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Artisan;
 use App\Models\AlbumQueue;
 use App\Models\Artist;
 use App\Models\WebDriver;
@@ -56,6 +57,8 @@ class ApiController extends Controller
 
     public function queue_artist_run()
     {
+        \Log::info('===========================');
+        \Log::info('Queue running for Artists..');
         Artisan::queue('app:process-artist-queue');
     }
 
@@ -79,15 +82,18 @@ class ApiController extends Controller
 
     public function queue_waiting()
     {
+        \Log::info('===========================');
+        \Log::info('Queue running for Albums..');
+        $data = array('queue' => false);
         $queue = AlbumQueue::where('state', 'pending')->first();
-        $album = $queue->album;
-        $artist = $album->artist;
+        if (!is_null($queue)) {
+            $album = $queue->album;
+            $artist = $album->artist;
+            $queue->state = 'in_progress';
+            $queue->save();
+            $data = array('queue' => $queue->toArray(), 'album' => $album->toArray(), 'artist' => $artist->toArray());
 
-        \Log::info('======================');
-        \Log::info('Queue running for album: ' . $album->name);
-        $queue->state = 'in_progress';
-        $queue->save();
-        $data = array('queue' => $queue->toArray(), 'album' => $album->toArray(), 'artist' => $artist->toArray());
+        }
         return json_encode($data);
     }
 

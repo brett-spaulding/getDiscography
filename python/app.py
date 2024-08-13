@@ -13,25 +13,28 @@ app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
 
 
-# def process_artist_queue():
-#     requests.get('http://nginx/api/queue/artists/run')
-#     return
+def process_artist_queue():
+    print('Running Artist Queue process..')
+    print('---')
+    requests.get('http://nginx/api/queue/artists/run')
+    return
 
 def process_album_queue():
     print('Running Album Queue Process..')
     print('---')
     response = requests.get('http://nginx/api/album/queue')
     data = response.json()
-    artist = data.get('artist')
-    album = data.get('album')
+    artist = data.get('artist', False)
+    album = data.get('album', False)
     queue = data.get('queue')
-    if artist and album and queue:
+    if not queue == False and artist and album:
         result = download_album(album, artist)
         requests.post('http://nginx/api/album/queue/update/%s' % queue.get('id'), json=result)
     return
 
 cron = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 1}, daemon=True)
 cron.add_job(process_album_queue, 'interval', minutes=1)
+cron.add_job(process_artist_queue, 'interval', minutes=1)
 cron.start()
 
 if __name__ == "__main__":

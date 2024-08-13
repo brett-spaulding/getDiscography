@@ -160,9 +160,10 @@ $(document).ready(function () {
             {
                 data: 'id', orderable: false, render: (data, type, row) => {
                     let stateDiable = row.state === 'in_progress' ? 'disabled' : '';
-                    let stateClass = row.state === 'in_progress' ? '' : 'btn-primary';
+                    let stateClass = row.state === 'done' ? 'btn-success' : 'btn-primary';
                     let artist_name = row.name;
-                    return `<button class="btn ${stateClass}" style="float: right;" data-artist_name="${artist_name}" data-artist_id="${data}" onclick="artist_queue_toggle(this)" ${stateDiable}><i class="las la-cloud-download-alt"></i> Download</button>`
+                    let button_icon = row.state === 'done' ? '<i class="las la-redo-alt"></i>' : '<i class="las la-cloud-download-alt"></i>';
+                    return `<button class="btn ${stateClass}" style="float: right;" data-artist_name="${artist_name}" data-artist_id="${data}" onclick="artist_queue_toggle(this)" ${stateDiable}>${button_icon} Download</button>`
                 }
             }
         ],

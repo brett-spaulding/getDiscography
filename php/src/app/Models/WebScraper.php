@@ -101,6 +101,29 @@ class WebScraper
         return $response;
     }
 
+    public static function processAlbums($albumContainer, $artist)
+    {
+        $albumLink = $albumContainer->findElement(WebDriverBy::cssSelector('a'));
+        $albumHref = $albumLink->getAttribute('href');
+        $albumTitle = $albumLink->getAttribute('title');
+        $albumThumbnail = $albumLink->findElement(WebDriverBy::cssSelector('img'))->getAttribute('src');
+
+        // Resize image and save to file, provide path to data
+        $imageUrl = ImageUrl::modifyGoogleImageUrl($albumThumbnail);
+        $imageFileUrl = ImageUrl::save_img_url($imageUrl, 'album');
+
+        $data = [
+            'name' => $albumTitle,
+            'artist_id' => $artist->id,
+            'thumbnail' => $albumThumbnail,
+            'url_remote' => $albumHref,
+            'image' => $imageFileUrl,
+        ];
+        $album_id = Album::findOrCreateByName($artist, $albumTitle, $data);
+        $album_queue = new AlbumQueue();
+        $album_queue->enqueue($album_id);
+    }
+
     /**
      * Scrape the album data from given artist page, create new album records and queue those records for download
      *
@@ -112,9 +135,11 @@ class WebScraper
         $driver->get($url);
         $response = 0;
         try {
-            $albumBtn = $driver->findElement(WebDriverBy::xpath('//a[text()="Albums"]'));
+            \Log::info('Looking for Albums button..');
+            $albumBtn = $driver->findElements(WebDriverBy::xpath('//a[text()="Albums"]'));
             if ($albumBtn) {
-                $albumBtn->click();
+                \Log::info('Clicking on located Albums button..');
+                $albumBtn[0]->click();
                 sleep(3);
                 $itemsContainer = $driver->findElements(WebDriverBy::cssSelector('#items'));
                 foreach ($itemsContainer as $item) {
@@ -122,29 +147,33 @@ class WebScraper
                     if ($albumContainers) {
                         foreach ($albumContainers as $albumContainer) {
                             $response += 1;
-                            $albumLink = $albumContainer->findElement(WebDriverBy::cssSelector('a'));
-                            $albumHref = $albumLink->getAttribute('href');
-                            $albumTitle = $albumLink->getAttribute('title');
-                            $albumThumbnail = $albumLink->findElement(WebDriverBy::cssSelector('img'))->getAttribute('src');
-
-                            // Resize image and save to file, provide path to data
-                            $imageUrl = ImageUrl::modifyGoogleImageUrl($albumThumbnail);
-                            $imageFileUrl = ImageUrl::save_img_url($imageUrl, 'album');
-
-                            $data = [
-                                'name' => $albumTitle,
-                                'artist_id' => $artist_id->id,
-                                'thumbnail' => $albumThumbnail,
-                                'url_remote' => $albumHref,
-                                'image' => $imageFileUrl,
-                            ];
-                            $album_id = Album::findOrCreateByName($artist_id, $albumTitle, $data);
-
-                            $album_queue = new AlbumQueue();
-                            $album_queue->enqueue($album_id);
+                            WebScraper::processAlbums($albumContainer, $artist_id);
                         }
                     }
                 }
+            } else {
+                \Log::info('Could not locate Albums button');
+
+                $ytRows = $driver->findElements(WebDriverBy::cssSelector('ytmusic-carousel-shelf-renderer'));
+                foreach ($ytRows as $ytRow) {
+                    $contentGroup = $ytRow->findElements(WebDriverBy::cssSelector('#content-group'));
+                    foreach ($contentGroup as $group) {
+                        $groupName = $group->getText();
+                        if ($groupName == 'Albums') {
+                            $itemsContainer = $ytRow->findElements(WebDriverBy::cssSelector('#items'));
+                            foreach ($itemsContainer as $item) {
+                                $albumContainers = $item->findElements(WebDriverBy::cssSelector('ytmusic-two-row-item-renderer'));
+                                if ($albumContainers) {
+                                    foreach ($albumContainers as $albumContainer) {
+                                        WebScraper::processAlbums($albumContainer, $artist_id);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
             }
         } catch (\Exception $e) {
             \Log::warning('Failed to scrape albums: ---------');
