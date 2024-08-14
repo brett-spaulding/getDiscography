@@ -132,7 +132,7 @@ services:
 
     chrome:
         image: selenium/node-chrome:nightly
-        shm_size: 8gb
+        shm_size: 4gb
         networks:
             - laravel
         depends_on:
@@ -141,8 +141,8 @@ services:
             - SE_EVENT_BUS_HOST=selenium-hub
             - SE_EVENT_BUS_PUBLISH_PORT=4442
             - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-            - SE_NODE_MAX_SESSIONS=15
-            - SE_NODE_MAX_SESSION=15
+            - SE_NODE_MAX_SESSIONS=1
+            - SE_NODE_MAX_SESSION=1
 
 #    edge:
 #        image: selenium/node-edge:nightly
@@ -177,7 +177,7 @@ services:
         networks:
             - laravel
         environment:
-            JAVA_OPTS: "-Xmx8g -Xms2g"
+            JAVA_OPTS: "-Xmx4g -Xms2g"
         container_name: selenium-hub
         ports:
             - "4442:4442"
