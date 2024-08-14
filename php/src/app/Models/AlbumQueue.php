@@ -13,7 +13,7 @@ class AlbumQueue extends Model
     {
         $result = false;
         $album_queued = AlbumQueue::where('album_id', $album->id)->first();
-        if (is_null($album_queued) && $album->state === 'pending') {
+        if (is_null($album_queued)) {
             $this->album_id = $album->id;
             $this->save();
             $result = true;
@@ -25,6 +25,7 @@ class AlbumQueue extends Model
     {
         $queue = new AlbumQueue();
         $queue->enqueue($album_id);
+        return true;
     }
 
     public function album()

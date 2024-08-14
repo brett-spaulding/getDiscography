@@ -121,7 +121,8 @@ class WebScraper
             'image' => $imageFileUrl,
         ];
         $album_id = Album::findOrCreateByName($artist, $albumTitle, $data);
-        AlbumQueue::addQueue($album_id);
+        $queued = AlbumQueue::addQueue($album_id);
+        return $queued;
     }
 
     /**
@@ -140,7 +141,7 @@ class WebScraper
             if ($albumBtn) {
                 \Log::info('Clicking on located Albums button..');
                 $albumBtn[0]->click();
-                sleep(3);
+                sleep(5);
                 $itemsContainer = $driver->findElements(WebDriverBy::cssSelector('#items'));
                 foreach ($itemsContainer as $item) {
                     $albumContainers = $item->findElements(WebDriverBy::cssSelector('.ytmusic-grid-renderer'));
@@ -169,7 +170,7 @@ class WebScraper
                                     if ($caroselNextButton[0]->isEnabled()) {
                                         $action = $driver->action();
                                         $action->moveToElement($caroselNextButton[0])->click()->perform();
-                                        sleep(1);
+                                        sleep(5);
                                     }
                                 }
                             }
