@@ -59,8 +59,6 @@ class ApiController extends Controller
 
     public function queue_artist_run()
     {
-        \Log::info('===========================');
-        \Log::info('Queue running for Artists..');
         ArtistQueue::run_queue();
     }
 
@@ -84,8 +82,6 @@ class ApiController extends Controller
 
     public function queue_waiting()
     {
-        \Log::info('===========================');
-        \Log::info('Queue running for Albums..');
         $data = array('queue' => false);
         $queue = AlbumQueue::where('state', 'pending')->first();
         if (!is_null($queue)) {

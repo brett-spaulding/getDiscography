@@ -135,11 +135,10 @@ class WebScraper
         $url = 'https://music.youtube.com/' . $artist_id->url_remote;
         $driver->get($url);
         $response = 0;
+        sleep(3);
         try {
-            \Log::info('Looking for Albums button..');
             $albumBtn = $driver->findElements(WebDriverBy::xpath('//a[text()="Albums"]'));
             if ($albumBtn) {
-                \Log::info('Clicking on located Albums button..');
                 $albumBtn[0]->click();
                 sleep(5);
                 $itemsContainer = $driver->findElements(WebDriverBy::cssSelector('#items'));
@@ -153,26 +152,31 @@ class WebScraper
                     }
                 }
             } else {
-                \Log::info('Could not locate Albums button');
                 $ytRows = $driver->findElements(WebDriverBy::cssSelector('ytmusic-carousel-shelf-renderer'));
                 foreach ($ytRows as $ytRow) {
                     $contentGroup = $ytRow->findElements(WebDriverBy::cssSelector('#content-group'));
                     foreach ($contentGroup as $group) {
                         $groupName = $group->getText();
                         if ($groupName == 'Albums') {
-
                             // Sometimes we don't have the option to click the albums button to filter
                             // Yet, the albums are in a carousel and the images won't load unless they are in view
                             $caroselNextButton = $driver->findElements(WebDriverBy::cssSelector('#next-items-button'));
-                            if ($caroselNextButton) {
-                                // Youtube is smart enough to block this without an action
-                                for ($i = 0; $i <= 3; $i++) {
-                                    if ($caroselNextButton[0]->isEnabled()) {
-                                        $action = $driver->action();
-                                        $action->moveToElement($caroselNextButton[0])->click()->perform();
-                                        sleep(5);
+                            try {
+                                if ($caroselNextButton) {
+                                    // Youtube is smart enough to block this without an action
+                                    for ($i = 0; $i <= 3; $i++) {
+                                        if ($caroselNextButton[0]->isEnabled()) {
+                                            $action = $driver->action();
+                                            $script = "arguments[0].scrollIntoView();";
+                                            $driver->executeScript($script, $caroselNextButton);
+                                            $action->moveToElement($caroselNextButton[0])->click()->perform();
+                                            sleep(5);
+                                        }
+                                        sleep(2);
                                     }
                                 }
+                            } catch (\Exception $e) {
+                                \Log::info($e);
                             }
 
                             $itemsContainer = $ytRow->findElements(WebDriverBy::cssSelector('#items'));
@@ -186,9 +190,7 @@ class WebScraper
                             }
                         }
                     }
-
                 }
-
             }
         } catch (\Exception $e) {
             \Log::warning('Failed to scrape albums: ---------');
