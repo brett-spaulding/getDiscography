@@ -21,6 +21,11 @@ class Album extends Model
         $this->save();
     }
 
+    public function getAlbumImageLocation()
+    {
+        return str_replace('/var/www/html', '', $this->image);
+    }
+
     public static function findByArtistTitle(Artist $artist, string $name)
     {
         return self::where('name', '=', $name)->where('artist_id', '=', $artist->id)->first();

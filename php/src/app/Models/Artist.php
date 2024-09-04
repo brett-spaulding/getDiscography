@@ -30,6 +30,11 @@ class Artist extends Model
         return self::where('id', '=', $id)->get();
     }
 
+    public function getArtistImageLocation()
+    {
+        return str_replace('/var/www/html', '', $this->image);
+    }
+
     public static function addArtist(string $name, string $thumbnail, string $url_remote, string $image)
     {
         $artist = new Artist();

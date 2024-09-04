@@ -24,7 +24,7 @@ class ApiController extends Controller
                 'name' => $artist->name,
                 'url_remote' => $artist->url_remote,
                 'state' => $artist->state,
-                'thumbnail' => $artist->thumbnail,
+                'thumbnail' => str_replace('/var/www/html/public', '', $artist->image),
             ];
         }
         $response = json_encode(array('data' => $data));
@@ -43,8 +43,8 @@ class ApiController extends Controller
                     'name' => $album->name,
                     'artist_id' => $artist->toArray(),
                     'url_remote' => $album->url_remote,
-                    'thumbnail' => $album->thumbnail,
-                    'image' => $album->image,
+                    'thumbnail' => str_replace('/var/www/html/public', '', $album->image),
+                    'image' => str_replace('/var/www/html/public', '', $album->image),
                     'state' => $queue->state,
                 ];
             }

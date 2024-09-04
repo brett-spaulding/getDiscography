@@ -13,12 +13,14 @@ function requestQueue() {
 }
 
 function template_artist_result(element) {
+    let image_src = element.image.replace('/var/www/html/public', '');
+    console.log(image_src);
     return `
         <div class="card w-100 p-2 mb-2">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-3">
-                        <img src="${element.thumbnail}" width="72px" height="72px" style="border-radius: 12px;"/>
+                        <img src="${image_src}" width="72px" height="72px" style="border-radius: 12px;"/>
                     </div>
                     <div class="col-9 m-auto">
                         <h4>${element.name}</h4>
@@ -88,39 +90,32 @@ function bind_action_buttons() {
     });
 
     $('#download_btn').on('click', () => {
-        loader.fadeIn(300);
         let artist = $('#search_bar').val();
 
         // Send request to server
         setTimeout(() => {
-            if (artist) {
-                console.log('Sending search request...');
-                $.ajax({
-                    url: `/artist/${artist}`,
-                    success: (response) => {
-                        console.log('Receiving response...');
-                        console.log(response);
-                        console.log('===========');
-                        icon = 'success';
-                        let html = construct_artist_result_html(response);
-                        proc_notification(icon, 'Shazam!', html);
-                        ArtistTable.ajax.reload();
-                        $('#search_bar').val('');
-                        loader.fadeOut(700);
-                    },
-                    error: (response) => {
-                        console.log('Receiving response...');
-                        console.log(response);
-                        console.log('===========');
-                        proc_notification(icon, 'What the flip?!', response.statusText);
-                        loader.fadeOut(700);
-                    }
-                });
 
-            } else {
-                proc_notification(icon, 'Whoopsie!', 'You need to add an artist, c\'mon man!');
-                loader.fadeOut(700);
+            if (artist == '') {
+                return proc_notification('error', 'Whoopsie!', 'You need to add an artist, c\'mon man!');;
             }
+
+            loader.fadeIn(300);
+
+            $.ajax({
+                url: `/artist/${artist}`,
+                success: (response) => {
+                    let html = construct_artist_result_html(response);
+                    proc_notification('success', 'Shazam!', html);
+                    ArtistTable.ajax.reload();
+                    $('#search_bar').val('');
+                    loader.fadeOut(700);
+                },
+                error: (response) => {
+                    proc_notification('error', 'What the flip?!', response.statusText);
+                    loader.fadeOut(700);
+                }
+            });
+
         }, 10);
 
     });

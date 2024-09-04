@@ -117,7 +117,7 @@ class WebScraper
             'name' => $albumTitle,
             'artist_id' => $artist->id,
             'thumbnail' => $albumThumbnail,
-            'url_remote' => $albumHref,
+            'url_remote' => $albumHref, // TODO: Check here if the image is a 'gif' and not a URL
             'image' => $imageFileUrl,
         ];
         $album_id = Album::findOrCreateByName($artist, $albumTitle, $data);
@@ -167,8 +167,6 @@ class WebScraper
                                     for ($i = 0; $i <= 3; $i++) {
                                         if ($caroselNextButton[0]->isEnabled()) {
                                             $action = $driver->action();
-                                            $script = "arguments[0].scrollIntoView();";
-                                            $driver->executeScript($script, $caroselNextButton);
                                             $action->moveToElement($caroselNextButton[0])->click()->perform();
                                             sleep(5);
                                         }

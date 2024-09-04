@@ -17,7 +17,7 @@
                                     </div>
                                 </template>
                                 <!-- Album Art -->
-                                <img :src="album.thumbnail" class="img-fluid rounded-start"
+                                <img :src="album.image" class="img-fluid rounded-start"
                                      :alt="album.name" style="width: 100%; height: 100%; min-height: 180px;">
                             </div>
 
